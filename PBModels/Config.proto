@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.huaying.framework.protos.config";
+option java_outer_classname = "ConfigProtos";
+option objc_class_prefix = "";
+
+package framework;
+
+import "CommonModel.proto";
+
+message PBBasicConfig {
+
+    // 通用的字段
+    string iosSplash = 1;                           // iOS 闪屏
+    string androidSplash = 2;                       // Android 闪屏
+    PBIOSVersion iosVersion = 3;                    // iOS 版本信息
+    PBAndroidVersion androidVersion = 4;            // Android 版本信息
+
+    //配置字段
+    PBShareConfig shareConfig = 10;                 // 分享相关设置
+    PBDynamicURLConfig urlConfig = 11;              // 动态页面URL配置
+    PBWeChatConfig wechatConfig = 12;               // 微信配置
+    PBQiniuTokenHost defaultQiniuHost = 13;         // 七牛默认配置
+
+    //业务配置
+    bytes bussinessConfig = 20;                     //具体的业务配置
+}
+
+message PBDynamicURLConfig {
+
+    // APP配置
+    string officialWebsite = 1;                    // APP官网地址
+    string wechatPublicAccount = 2;                // APP微信公众号
+    string userAgreementUrl = 3;                   // APP用户协议 URL
+
+}
+
+message PBWeChatConfig {
+
+    // 微信设置
+    string wechatAppKey = 1;
+    string wechatAppSecret = 2;
+    PBShareConfig wechatShareConfig = 3;            // 微信分享设置
+
+    // QQ设置
+    string qqAppKey = 11;
+    string qqAppSecret = 12;
+    PBShareConfig qqShareConfig = 13;                // QQ分享设置
+}
+
+message PBQiniuTokenHost {
+    string token = 1;
+    string host = 2;
+}
+
+message PBShareConfig {
+    string appShareUrl = 1;                         // APP 分享 URL
+    string appShareTitle = 2;                       // APP 分享标题
+    string appShareDescription = 3;                 // APP 分享描述
+    string appLogoUrl = 4;                          // APP LOGO URL
+}
+
+message PBIOSVersion {
+    string reviewVersion = 1;                       // 正在审核版本
+    string latestVersion = 2;                       // 最新版本
+    string url = 3;                                 // 更新版本URL
+    repeated string forceUpdateVersions = 4;        // 强制更新的版本号
+    string title = 5;                               // 更新的提示语
+    repeated string contents = 6;                   // 更新内容
+}
+
+// 地区配置数据
+message PBLocationConfig {
+    repeated PBLocation hotCities = 1;              // 热门城市
+    repeated PBLocation others = 2;                 // 其他地区
+}
+
+message PBAndroidVersion {
+    uint32 versionCode = 1;                         // 最新版本
+    string versionName = 2;                         // 最新版本名
+    string url = 3;                                 // apk url
+    string md5 = 4;                                 // apk md5
+    repeated uint32 forceUpdateVersionCodes = 5;    // 强制更新的版本号
+    string title = 6;                               // 更新的提示语
+    repeated string contents = 7;                   // 更新内容
+}
+
+message PBSystemParaConfig {
+    string key = 1;
+    string value = 2;
+    string desc = 3;
+    uint64 createTime = 4;
+    uint64 modifyTime = 5;
+}
+
+message PBSystemParaConfigList {
+    repeated PBSystemParaConfig configs = 1;
+}
+
+message PBSystemParaReq {
+    string key = 1;              // 参数的键
+    string defaultValue = 2;     // 如果系统参数不存在，则取默认值
+}

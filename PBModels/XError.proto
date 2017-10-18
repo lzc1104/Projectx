@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.huaying.jtht.protos";
+option java_outer_classname = "XErrorProtos";
+option objc_class_prefix = "";
+
+package jtht;
+
+enum PBXError {
+    SUCCESS = 0; // 成功
+
+    USER_NOT_FOUND = 100000; // 用户不存在
+    CARDNO_OR_PWD_NOT_CORRECT = 100001; // 客户编号或密码有误
+    PWD_NOT_CORRECT = 100002; // 密码有误
+}
+
+

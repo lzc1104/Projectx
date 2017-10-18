@@ -1,0 +1,16 @@
+syntax = "proto3";
+import "CommonModel.proto";
+
+option java_multiple_files = true;
+option java_package = "com.huaying.x.protos";
+option java_outer_classname = "XConfigProtos";
+option objc_class_prefix = "";
+
+package jtht;
+
+message PBAppConfig {
+    string contactEmail = 1; // 联系email
+    string contactPhone = 2; // 联系电话
+}
+
+

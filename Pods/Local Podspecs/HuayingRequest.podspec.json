@@ -1,0 +1,53 @@
+{
+  "name": "HuayingRequest",
+  "version": "0.11.21",
+  "summary": "HuayingRequest including Http & WebSocket",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/gckjdev/Huaying_iOS_Network",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "wangxiaotao": "445242970@qq.com"
+  },
+  "source": {
+    "git": "https://github.com/gckjdev/Huaying_iOS_Network.git",
+    "tag": "0.11.21"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "public_header_files": [
+    "HuayingRequest/Classes/HuayingRequest.h",
+    "HuayingRequest/Classes/xxtea-objc/*.h"
+  ],
+  "source_files": "HuayingRequest/Classes/**/*",
+  "dependencies": {
+    "Alamofire": [
+      "~> 4.5.0"
+    ],
+    "PromiseKit": [
+      "~> 4.4"
+    ],
+    "SwiftWebSocket": [
+
+    ]
+  },
+  "pod_target_xcconfig": {
+    "GCC_PREPROCESSOR_DEFINITIONS": "$(inherited) GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1"
+  },
+  "subspecs": [
+    {
+      "name": "proto",
+      "source_files": "HuayingRequest/Classes/proto/**/*",
+      "dependencies": {
+        "Protobuf": [
+
+        ]
+      },
+      "public_header_files": "HuayingRequest/Classes/proto/*.h",
+      "requires_arc": false
+    }
+  ]
+}

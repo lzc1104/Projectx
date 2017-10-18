@@ -1,0 +1,73 @@
+syntax = "proto3";
+import "CommonModel.proto";
+
+option java_multiple_files = true;
+option java_package = "com.huaying.x.protos";
+option java_outer_classname = "XAppProtos";
+option objc_class_prefix = "";
+
+package jtht;
+
+// 用户
+message PBUser {
+    uint32 id = 1;                  // 自增长int
+    string name = 2;                // 客户名字
+    string password = 3;            // 明文密码
+    string cardno = 4;              // 客户编号
+    string phoneno = 5;             // 手机号
+    string email = 6;               // 邮箱
+    uint64 birth_date = 7;          // 生日 timestamp
+    bool gender = 8;                // 性别 男true 女false 未知null
+    string lastLoginIp = 9;       // 最后登录ip
+    uint64 lastLoginTime = 10;    // 最后登录时间
+}
+
+// 资产组合
+message PBPortfolio {
+    uint32 id = 1;                  // 自增长int
+    string name = 2;                // 组合名字
+    uint64 price = 3;               // 单价, 人民币, 分
+    uint64 endDate = 4;            // 到期时间 timestamp
+}
+
+// 用户资产
+message PBTransaction {
+    uint64 id = 1;                      // 自增长long
+    PBUser user = 2;                    // 用户
+    PBPortfolio portfolio = 3;          // 资产组合
+    uint64 initialPrice = 4;            // 购入单价, 人民币, 分
+    uint64 initialPayment = 5;          // 购入总价, 人民币, 分
+    uint64 unit = 6;                    // 购入股数
+    uint32 status = 7;                  // 状态 PBTransactionStatus
+    uint64 startDate = 8;               // 购入时间 timestamp
+    uint64 finishDate = 9;              // 投资结束时间（结束后写入） timestamp
+}
+
+enum PBTransactionStatus {
+    TRANS_STATUS_INVESTING = 0; // 已投资
+    TRANS_STATUS_WITH_DRAW = 1; // 已提现
+    TRANS_STATUS_CANCELED = -1; // 已取消
+}
+
+
+message PBResetPasswordReq {
+    uint32 userId = 1;                 // 用户id
+    string oldPassword = 2;            // 明文密码
+    string newPassword = 3;            // 明文密码
+}
+
+message PBPortfolioListReq {
+    uint32 userId = 1;                 // 用户id
+}
+
+message PBPortfolioList {
+    repeated PBPortfolio portfolios = 1;
+}
+
+message PBTransactionListReq {
+    uint32 userId = 1;                 // 用户id
+}
+
+message PBTransactionList {
+    repeated PBTransaction transactions = 1;
+}

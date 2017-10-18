@@ -1,0 +1,41 @@
+syntax = "proto3";
+//import "CommonModel.proto";
+
+option java_multiple_files = true;
+option java_package = "com.huaying.jtht.protos";
+option java_outer_classname = "XMessageProtos";
+option objc_class_prefix = "";
+
+package jtht;
+
+/*
+
+消息定义命名规范  1. PBMessageType 取值范围 0 到 1000
+
+创建              <分类名>_ADD        请求参数和返回参数一般为对象本身
+根据ID获取对象     <分类名>_GET_BY_ID  参数为 PBIntValue 或者 PBStrValue （如果其他特殊情况另外定义独立请求体），返回为对象
+获取列表          <分类名>_GET_LIST   参数为独立请求体 PBGetXXXListReq 返回为对象列表
+搜索             <分类名>_SEARCH     参数为独立请求体 PBSearchXXXReq 返回为对象列表\
+更新保存对象       <分类名>_UPDATE     参数为对象（一般只能更新对象的其中部分信息，需注明），返回对象本身
+删除             <分类名>_DELETE     参数为对象或者对象ID，返回空
+其他业务操作       <分类名>_<操作名>    参数为 PBXXXReq 返回为 PBXXXRsp （或者对象，可根据实际情况定义）
+
+*/
+
+// 通用消息定义在 0-9999 之间
+// sjg消息定义在 10000~x 之间
+enum PBXMessageType {
+
+    DEFAULT = 0;
+
+    APP_CONFIG_GET = 10000;     // 获取基础数据（联系email 联系电话 关于页面内容）, void --> PBAppConfig
+
+    USER_LOGIN = 11000;         // 用户登录 PBUser(cardno, password) --> PBUser
+    USER_RESET_PWD = 11001;     // 用户修改密码 PBResetPasswordReq(userId, originalPassword, newPassword) --> PBUser
+    USER_SYNC = 11002;          // 用户同步数据 PBUser(userId) --> PBUser
+
+    PORTFOLIO_GET_LIST = 12000; // 获取资产组合列表 PBPortfolioListReq(userId可选) --> PBPortfolioList
+
+    TRANSACTION_GET_LIST = 13000; // 获取用户已购组合列表 PBTransactionListReq(userId) --> PBTransactionList
+
+}

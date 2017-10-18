@@ -1,0 +1,6 @@
+framework module HuayingRequest {
+  umbrella header "HuayingRequest-umbrella.h"
+
+  export *
+  module * { export * }
+}

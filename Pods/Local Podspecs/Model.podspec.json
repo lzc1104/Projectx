@@ -1,0 +1,38 @@
+{
+  "name": "Model",
+  "version": "0.0.58",
+  "summary": "This a Protos of protobuf generates files",
+  "platforms": {
+    "ios": "8.0"
+  },
+  "homepage": "http://cn.bing.com",
+  "license": "MIT",
+  "authors": {
+    "lzc1104": "527004184@QQ.COM"
+  },
+  "source": {
+    "git": "https://github.com/google/protobuf.git"
+  },
+  "source_files": "Protos/**/*",
+  "prepare_command": "mkdir -p Pods/Model\n    /usr/local/bin/protoc         --objc_out=Pods/Model         -I ./PBModels         ./PBModels/*.proto",
+  "pod_target_xcconfig": {
+    "GCC_PREPROCESSOR_DEFINITIONS": "$(inherited) GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+    "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES": "YES"
+  },
+  "subspecs": [
+    {
+      "name": "Message",
+      "source_files": [
+        "Pods/Model/*.pbobjc.{h,m}",
+        "Pods/Model/**/*.pbobjc.{h,m}"
+      ],
+      "header_mappings_dir": "Pods/Model",
+      "requires_arc": false,
+      "dependencies": {
+        "Protobuf": [
+
+        ]
+      }
+    }
+  ]
+}

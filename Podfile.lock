@@ -1,0 +1,74 @@
+PODS:
+  - Alamofire (4.5.1)
+  - Device (3.0.2)
+  - HuayingRequest (0.11.21):
+    - Alamofire (~> 4.5.0)
+    - HuayingRequest/proto (= 0.11.21)
+    - PromiseKit (~> 4.4)
+    - SwiftWebSocket
+  - HuayingRequest/proto (0.11.21):
+    - Alamofire (~> 4.5.0)
+    - PromiseKit (~> 4.4)
+    - Protobuf
+    - SwiftWebSocket
+  - Model (0.0.58):
+    - Model/Message (= 0.0.58)
+  - Model/Message (0.0.58):
+    - Protobuf
+  - PromiseKit (4.4.0):
+    - PromiseKit/Foundation (= 4.4.0)
+    - PromiseKit/QuartzCore (= 4.4.0)
+    - PromiseKit/UIKit (= 4.4.0)
+  - PromiseKit/CorePromise (4.4.0)
+  - PromiseKit/Foundation (4.4.0):
+    - PromiseKit/CorePromise
+  - PromiseKit/QuartzCore (4.4.0):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (4.4.0):
+    - PromiseKit/CorePromise
+  - Protobuf (3.4.0)
+  - RxSwift (3.6.1)
+  - SwiftWebSocket (2.6.5)
+  - SwipeBack (1.1.1)
+  - UICKeyChainStore (2.1.1)
+  - YYCategories (1.0.4):
+    - YYCategories/no-arc (= 1.0.4)
+  - YYCategories/no-arc (1.0.4)
+
+DEPENDENCIES:
+  - Device
+  - HuayingRequest (from `git@github.com:gckjdev/Huaying_iOS_Network.git`, tag `0.11.21`)
+  - Model (from `.`)
+  - RxSwift
+  - SwipeBack (~> 1.1)
+  - UICKeyChainStore
+  - YYCategories
+
+EXTERNAL SOURCES:
+  HuayingRequest:
+    :git: git@github.com:gckjdev/Huaying_iOS_Network.git
+    :tag: 0.11.21
+  Model:
+    :path: "."
+
+CHECKOUT OPTIONS:
+  HuayingRequest:
+    :git: git@github.com:gckjdev/Huaying_iOS_Network.git
+    :tag: 0.11.21
+
+SPEC CHECKSUMS:
+  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
+  Device: 746d3457c67e6d7227c8c7945978314d06900437
+  HuayingRequest: a3fb5a6967eac4683c8fc24710a194dd18163a01
+  Model: 12586c5424f8dd5d48056c81fb181d46f9009df4
+  PromiseKit: ecf5fe92275d57ee77c9ede858af47a162e9b97e
+  Protobuf: 03eef2ee0b674770735cf79d9c4d3659cf6908e8
+  RxSwift: f9de85ea20cd2f7716ee5409fc13523dc638e4e4
+  SwiftWebSocket: 1ef8a0efb023544643bdf480c1ec4a62b204f293
+  SwipeBack: d6759601b40da1f4161033feb30ab475d7d04322
+  UICKeyChainStore: 239558492fa260531a0774cfc611ea83a6eaff3a
+  YYCategories: 6bcd4314c6661a561410dce4a793379ebd306abd
+
+PODFILE CHECKSUM: e16dcd22a6a8e325b2348289590de3b11b235db5
+
+COCOAPODS: 1.2.1
