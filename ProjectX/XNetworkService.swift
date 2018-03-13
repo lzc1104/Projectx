@@ -13,9 +13,10 @@ import Device
 
 class XNetworkService: HuayingRequestServiceType {
 
+    static let shared = XNetworkService()
 
     var baseUrl: String {
-        return ""
+        return "http://fxsys.com.hk:9980/api"
     }
 
     var secretKeys: [String: String] {
@@ -29,11 +30,7 @@ class XNetworkService: HuayingRequestServiceType {
     
     var currentDevice: DeviceInfo? {
         return nil
-//        let deviceId = UIDevice.current.deviceId
-//        let deviceOS = UIDevice.current.systemName + UIDevice.current.systemVersion
-//        let deviceModel = Device.version().rawValue
-//        let device = DeviceInfo(deviceId: deviceId, deviceOS: deviceOS, deviceModel: deviceModel)
-//        return device
+
     }
     
     var currentNetwork: NetworkInfo? {

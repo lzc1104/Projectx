@@ -1,0 +1,122 @@
+{
+  "name": "CommonLib",
+  "version": "1.3.5",
+  "summary": "Huaying CommonLib.",
+  "description": "TODO: Add long description of the pod here.",
+  "requires_arc": true,
+  "homepage": "https://github.com/lzc1104/CommonLib",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "lzc1104": "527004184@QQ.COM"
+  },
+  "source": {
+    "git": "https://github.com/gckjdev/Huaying_iOS_Common.git",
+    "tag": "1.3.5"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "xcconfig": {
+    "FRAMEWORK_SEARCH_PATHS": "${PODS_ROOT}/CommonLib/Vendors/**/*"
+  },
+  "public_header_files": "CommonLib/CommonLib.h",
+  "source_files": "CommonLib/CommonLib.h",
+  "frameworks": [
+    "UIKit",
+    "CoreTelephony",
+    "SystemConfiguration"
+  ],
+  "ios": {
+    "vendored_frameworks": "CommonLib/Vendors/AliCloudHttpDNS/*"
+  },
+  "libraries": [
+    "z",
+    "resolv"
+  ],
+  "dependencies": {
+    "Protobuf": [
+
+    ],
+    "UICKeyChainStore": [
+
+    ],
+    "leveldb": [
+
+    ],
+    "AFNetworking": [
+      "~> 3.0"
+    ],
+    "MBProgressHUD": [
+
+    ]
+  },
+  "pod_target_xcconfig": {
+    "GCC_PREPROCESSOR_DEFINITIONS": "$(inherited) GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1"
+  },
+  "subspecs": [
+    {
+      "name": "BasicUtils",
+      "source_files": "CommonLib/BasicUtils/**/*",
+      "public_header_files": "CommonLib/BasicUtils/*.h"
+    },
+    {
+      "name": "UIKit+Utils",
+      "source_files": "CommonLib/UIKit+Utils/**/*"
+    },
+    {
+      "name": "DateUtils",
+      "source_files": "CommonLib/DateUtils/**/*",
+      "public_header_files": "CommonLib/DateUtils/*.h"
+    },
+    {
+      "name": "FileUtils",
+      "dependencies": {
+        "CommonLib/UIKit+Utils": [
+
+        ],
+        "CommonLib/BasicUtils": [
+
+        ]
+      },
+      "libraries": "z",
+      "private_header_files": "CommonLib/Private/*.h",
+      "public_header_files": "CommonLib/FileUtils/FileUtil.h",
+      "source_files": [
+        "CommonLib/FileUtils/**/*",
+        "CommonLib/Private/*.h"
+      ]
+    },
+    {
+      "name": "MessageCenter",
+      "dependencies": {
+        "CommonLib/BasicUtils": [
+
+        ],
+        "MBProgressHUD": [
+
+        ],
+        "CommonLib/UIKit+Utils": [
+
+        ]
+      },
+      "source_files": "CommonLib/MessageCenter/**/*",
+      "public_header_files": "CommonLib/MessageCenter/*.h"
+    },
+    {
+      "name": "Device",
+      "dependencies": {
+        "CommonLib/BasicUtils": [
+
+        ],
+        "UICKeyChainStore": [
+
+        ]
+      },
+      "source_files": "CommonLib/Device/**/*",
+      "public_header_files": "CommonLib/Device/*.h"
+    }
+  ]
+}

@@ -171,15 +171,17 @@ typedef struct PBAdmin__storage_ {
 @implementation PBAdminLog
 
 @dynamic id_p;
-@dynamic hasAdmin, admin;
+@dynamic adminId;
 @dynamic adminName;
 @dynamic event;
 @dynamic description_p;
 @dynamic createDate;
+@dynamic messageType;
 
 typedef struct PBAdminLog__storage_ {
   uint32_t _has_storage_[1];
-  PBAdmin *admin;
+  uint32_t adminId;
+  uint32_t messageType;
   NSString *adminName;
   NSString *event;
   NSString *description_p;
@@ -203,13 +205,13 @@ typedef struct PBAdminLog__storage_ {
         .dataType = GPBDataTypeUInt64,
       },
       {
-        .name = "admin",
-        .dataTypeSpecific.className = GPBStringifySymbol(PBAdmin),
-        .number = PBAdminLog_FieldNumber_Admin,
+        .name = "adminId",
+        .dataTypeSpecific.className = NULL,
+        .number = PBAdminLog_FieldNumber_AdminId,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PBAdminLog__storage_, admin),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeMessage,
+        .offset = (uint32_t)offsetof(PBAdminLog__storage_, adminId),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeUInt32,
       },
       {
         .name = "adminName",
@@ -247,6 +249,15 @@ typedef struct PBAdminLog__storage_ {
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeUInt64,
       },
+      {
+        .name = "messageType",
+        .dataTypeSpecific.className = NULL,
+        .number = PBAdminLog_FieldNumber_MessageType,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(PBAdminLog__storage_, messageType),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeUInt32,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[PBAdminLog class]
@@ -258,7 +269,7 @@ typedef struct PBAdminLog__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\002\003\t\000\006\n\000";
+        "\004\002\007\000\003\t\000\006\n\000\007\013\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
@@ -550,12 +561,12 @@ typedef struct PBGetAdminLogListReq__storage_ {
 @implementation PBAdminLogList
 
 @dynamic logsArray, logsArray_Count;
-@dynamic hasPage, page;
+@dynamic hasPageInfo, pageInfo;
 
 typedef struct PBAdminLogList__storage_ {
   uint32_t _has_storage_[1];
   NSMutableArray *logsArray;
-  PBPageInfo *page;
+  PBPageInfo *pageInfo;
 } PBAdminLogList__storage_;
 
 // This method is threadsafe because it is initially called
@@ -574,12 +585,12 @@ typedef struct PBAdminLogList__storage_ {
         .dataType = GPBDataTypeMessage,
       },
       {
-        .name = "page",
+        .name = "pageInfo",
         .dataTypeSpecific.className = GPBStringifySymbol(PBPageInfo),
-        .number = PBAdminLogList_FieldNumber_Page,
+        .number = PBAdminLogList_FieldNumber_PageInfo,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PBAdminLogList__storage_, page),
-        .flags = GPBFieldOptional,
+        .offset = (uint32_t)offsetof(PBAdminLogList__storage_, pageInfo),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeMessage,
       },
     };
@@ -591,6 +602,11 @@ typedef struct PBAdminLogList__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(PBAdminLogList__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\001\002\010\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
   }

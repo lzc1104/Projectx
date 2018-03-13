@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.huaying.framework.protos.location";
+option java_outer_classname = "LocationProtos";
+option objc_class_prefix = "";
+
+package framework;
+
+import "CommonModel.proto";
+
+// 地区数据
+message PBLocation {
+    uint32 locationId = 1;                  // 地区ID（唯一编号）
+    bool oversea = 2;                       // 是否国外（海外）
+    uint32 continentId = 3;                 // 洲ID，中国默认为亚洲（1）
+    uint32 countryId = 4;                   // 国家ID，按照国家电话区号，如中国为86
+    uint32 provinceId = 5;                  // 省ID，按 city.json 基础数据定义
+    uint32 cityId = 6;                      // 市ID，按 city.json 基础数据定义
+    uint32 districtId = 7;                  // 区/县ID
+    string provinceName = 9;                // 省名
+    string cityName = 10;                   // 市名
+    string districtName = 8;                // 区名
+    PBLocationLevel level = 12;             // location 级别
+    bool hot = 11;                          // 是否热门
+    uint32 sorted = 13;                     // 服务器端排序字段
+    string nameSpelling = 14;               // locationname 全拼
+    repeated PBLocation subLocations = 15;  // location子串
+    string shortSpelling = 16;              // locationname 首字母全拼
+    PBLocationCityLevel cityLevel = 17;     // 城市等级
+}
+
+enum PBLocationLevel {
+    PROVINCE = 0;                           // 省级
+    CITY = 1;                               // 市级
+    DISTRICT = 2;                           // 区级
+}
+
+// 城市等级
+enum PBLocationCityLevel {
+    LOCATION_FIRST_LEVEL_CITY = 0;          // 一线城市
+    LOCATION_SECOND_LEVEL_CITY = 1;         // 二线城市
+    LOCATION_OTHER_CITY = 10;               // 其他城市
+    LOCATION_ALL_CITY = 99;                 // 所有城市
+}
+
+enum PBSearchLocationType {
+    SEARCH_LOCATION_DISTRICT  = 0;
+    SEARCH_LOCATION_CITY = 1;
+    SEARCH_LOCATION_PROVINCE = 2;
+}
+
+
+// Location请求
+message PBLocationQueryReq {
+    uint32 higherId = 1;                                        // 上一级的编号 如市的上一级省 区的上一级市
+    string locationName = 2;                                    // 名称匹配
+}
+
+// 位置数据列表
+message PBLocationList {
+    repeated PBLocation locations = 1;                          // 列表
+    framework.PBPageInfo pageInfo = 2;                          // 分页信息
+}
+
+message PBUpdateLocationCityLevelReq {
+    string cityName = 1;                                        // 城市名称
+    PBLocationCityLevel cityLevel = 2;                          // 城市等级
+}
+
+message PBGetLocationByCityLevelReq {
+    PBLocationCityLevel cityLevel = 1;                          // 城市等级
+}
+
+message PBLocationGetAllReq {
+    uint64 version = 1;                                         // 本地location数据版本号
+    PBLocationType returnType = 2;                              // 返回数据的结构类型
+}
+
+enum PBLocationType {
+    LOCATIONS_FLAT = 0;                                         // 平面
+    LOCATIONS_TREE = 1;                                         // 树形
+}
+
+// 位置数据
+message PBLocationData{
+    repeated PBLocation locations = 1;                          // 位置信息列表
+    uint64 modifyTime = 2;                                      // 位置数据更新时间
+}
+
+// 根据经纬度查询位置
+message PBLocationDetectReq {
+    double longitude = 1;
+    double latitude = 2;
+}
+
+//根据地址和地区得到经纬度
+message PBGetLocationLntLat {
+    uint32 locationId = 1;
+    string address = 2;
+
+}
+
+//经纬度
+message PBLocationLntLat {
+    double longitude = 1;
+    double latitude = 2;
+}

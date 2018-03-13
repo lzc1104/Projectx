@@ -89,30 +89,40 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "$BUILT_PRODUCTS_DIR/AFNetworking/AFNetworking.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Alamofire/Alamofire.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/CommonLib/CommonLib.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Device/Device.framework"
   install_framework "$BUILT_PRODUCTS_DIR/HuayingRequest/HuayingRequest.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/MBProgressHUD/MBProgressHUD.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Model/Model.framework"
   install_framework "$BUILT_PRODUCTS_DIR/PromiseKit/PromiseKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Protobuf/Protobuf.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/RxCocoa/RxCocoa.framework"
   install_framework "$BUILT_PRODUCTS_DIR/RxSwift/RxSwift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SwiftWebSocket/SwiftWebSocket.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SwipeBack/SwipeBack.framework"
   install_framework "$BUILT_PRODUCTS_DIR/UICKeyChainStore/UICKeyChainStore.framework"
   install_framework "$BUILT_PRODUCTS_DIR/YYCategories/YYCategories.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/leveldb/leveldb.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "$BUILT_PRODUCTS_DIR/AFNetworking/AFNetworking.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Alamofire/Alamofire.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/CommonLib/CommonLib.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Device/Device.framework"
   install_framework "$BUILT_PRODUCTS_DIR/HuayingRequest/HuayingRequest.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/MBProgressHUD/MBProgressHUD.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Model/Model.framework"
   install_framework "$BUILT_PRODUCTS_DIR/PromiseKit/PromiseKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Protobuf/Protobuf.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/RxCocoa/RxCocoa.framework"
   install_framework "$BUILT_PRODUCTS_DIR/RxSwift/RxSwift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SwiftWebSocket/SwiftWebSocket.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SwipeBack/SwipeBack.framework"
   install_framework "$BUILT_PRODUCTS_DIR/UICKeyChainStore/UICKeyChainStore.framework"
   install_framework "$BUILT_PRODUCTS_DIR/YYCategories/YYCategories.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/leveldb/leveldb.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

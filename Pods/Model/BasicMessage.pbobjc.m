@@ -58,7 +58,14 @@ GPBEnumDescriptor *PBMessageType_EnumDescriptor(void) {
         "\000AdminUpdate\000AdminLogGetList\000LocationGet"
         "All\000LocationDetect\000LocationGetProvince\000L"
         "ocationGetCityByProvince\000LocationGetDist"
-        "rictByCity\000LocationGetById\000";
+        "rictByCity\000LocationGetById\000LocationHotCi"
+        "ties\000LocationSetHotCity\000LocationUnSetHot"
+        "City\000LocationRefreshCache\000LocationUpdate"
+        "CityLevel\000LocationGetByCityLevel\000Locatio"
+        "nGetLngLat\000PushMessageAdd\000PushMessageSea"
+        "rchList\000PushMessageGetById\000SocketLogin\000S"
+        "ocketPingPong\000SocketSubscribeTopic\000Socke"
+        "tUnsubscribeTopic\000SocketMultiLogin\000";
     static const int32_t values[] = {
         PBMessageType_Default,
         PBMessageType_BasicConfigGet,
@@ -84,6 +91,21 @@ GPBEnumDescriptor *PBMessageType_EnumDescriptor(void) {
         PBMessageType_LocationGetCityByProvince,
         PBMessageType_LocationGetDistrictByCity,
         PBMessageType_LocationGetById,
+        PBMessageType_LocationHotCities,
+        PBMessageType_LocationSetHotCity,
+        PBMessageType_LocationUnSetHotCity,
+        PBMessageType_LocationRefreshCache,
+        PBMessageType_LocationUpdateCityLevel,
+        PBMessageType_LocationGetByCityLevel,
+        PBMessageType_LocationGetLngLat,
+        PBMessageType_PushMessageAdd,
+        PBMessageType_PushMessageSearchList,
+        PBMessageType_PushMessageGetById,
+        PBMessageType_SocketLogin,
+        PBMessageType_SocketPingPong,
+        PBMessageType_SocketSubscribeTopic,
+        PBMessageType_SocketUnsubscribeTopic,
+        PBMessageType_SocketMultiLogin,
     };
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PBMessageType)
@@ -124,6 +146,21 @@ BOOL PBMessageType_IsValidValue(int32_t value__) {
     case PBMessageType_LocationGetCityByProvince:
     case PBMessageType_LocationGetDistrictByCity:
     case PBMessageType_LocationGetById:
+    case PBMessageType_LocationHotCities:
+    case PBMessageType_LocationSetHotCity:
+    case PBMessageType_LocationUnSetHotCity:
+    case PBMessageType_LocationRefreshCache:
+    case PBMessageType_LocationUpdateCityLevel:
+    case PBMessageType_LocationGetByCityLevel:
+    case PBMessageType_LocationGetLngLat:
+    case PBMessageType_PushMessageAdd:
+    case PBMessageType_PushMessageSearchList:
+    case PBMessageType_PushMessageGetById:
+    case PBMessageType_SocketLogin:
+    case PBMessageType_SocketPingPong:
+    case PBMessageType_SocketSubscribeTopic:
+    case PBMessageType_SocketUnsubscribeTopic:
+    case PBMessageType_SocketMultiLogin:
       return YES;
     default:
       return NO;
@@ -134,41 +171,35 @@ BOOL PBMessageType_IsValidValue(int32_t value__) {
 
 @implementation PBMessageRequest
 
-@dynamic encrypt;
-@dynamic compress;
+@dynamic encrypted;
+@dynamic compressed;
 @dynamic type;
 @dynamic messageData;
 @dynamic requestId;
 @dynamic version;
-@dynamic timeStamp;
-@dynamic deviceOs;
-@dynamic deviceModel;
-@dynamic deviceId;
-@dynamic deviceType;
+@dynamic timestamp;
+@dynamic hasDevice, device;
+@dynamic hasNetwork, network;
 @dynamic appVersion;
 @dynamic appKey;
-@dynamic token;
+@dynamic accessToken;
 @dynamic signature;
 @dynamic adminId;
-@dynamic network;
 
 typedef struct PBMessageRequest__storage_ {
   uint32_t _has_storage_[1];
   uint32_t type;
   uint32_t version;
-  uint32_t deviceOs;
-  PBDeviceType deviceType;
   uint32_t adminId;
-  PBNetwork network;
   NSData *messageData;
-  NSString *deviceModel;
-  NSString *deviceId;
+  PBDevice *device;
+  PBNetwork *network;
   NSString *appVersion;
   NSString *appKey;
-  NSString *token;
+  NSString *accessToken;
   NSString *signature;
   uint64_t requestId;
-  uint64_t timeStamp;
+  uint64_t timestamp;
 } PBMessageRequest__storage_;
 
 // This method is threadsafe because it is initially called
@@ -178,18 +209,18 @@ typedef struct PBMessageRequest__storage_ {
   if (!descriptor) {
     static GPBMessageFieldDescription fields[] = {
       {
-        .name = "encrypt",
+        .name = "encrypted",
         .dataTypeSpecific.className = NULL,
-        .number = PBMessageRequest_FieldNumber_Encrypt,
+        .number = PBMessageRequest_FieldNumber_Encrypted,
         .hasIndex = 0,
         .offset = 1,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBool,
       },
       {
-        .name = "compress",
+        .name = "compressed",
         .dataTypeSpecific.className = NULL,
-        .number = PBMessageRequest_FieldNumber_Compress,
+        .number = PBMessageRequest_FieldNumber_Compressed,
         .hasIndex = 2,
         .offset = 3,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
@@ -232,55 +263,37 @@ typedef struct PBMessageRequest__storage_ {
         .dataType = GPBDataTypeUInt32,
       },
       {
-        .name = "timeStamp",
+        .name = "timestamp",
         .dataTypeSpecific.className = NULL,
-        .number = PBMessageRequest_FieldNumber_TimeStamp,
+        .number = PBMessageRequest_FieldNumber_Timestamp,
         .hasIndex = 8,
-        .offset = (uint32_t)offsetof(PBMessageRequest__storage_, timeStamp),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .offset = (uint32_t)offsetof(PBMessageRequest__storage_, timestamp),
+        .flags = GPBFieldOptional,
         .dataType = GPBDataTypeUInt64,
       },
       {
-        .name = "deviceOs",
-        .dataTypeSpecific.className = NULL,
-        .number = PBMessageRequest_FieldNumber_DeviceOs,
+        .name = "device",
+        .dataTypeSpecific.className = GPBStringifySymbol(PBDevice),
+        .number = PBMessageRequest_FieldNumber_Device,
         .hasIndex = 9,
-        .offset = (uint32_t)offsetof(PBMessageRequest__storage_, deviceOs),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeUInt32,
+        .offset = (uint32_t)offsetof(PBMessageRequest__storage_, device),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
       },
       {
-        .name = "deviceModel",
-        .dataTypeSpecific.className = NULL,
-        .number = PBMessageRequest_FieldNumber_DeviceModel,
+        .name = "network",
+        .dataTypeSpecific.className = GPBStringifySymbol(PBNetwork),
+        .number = PBMessageRequest_FieldNumber_Network,
         .hasIndex = 10,
-        .offset = (uint32_t)offsetof(PBMessageRequest__storage_, deviceModel),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "deviceId",
-        .dataTypeSpecific.className = NULL,
-        .number = PBMessageRequest_FieldNumber_DeviceId,
-        .hasIndex = 11,
-        .offset = (uint32_t)offsetof(PBMessageRequest__storage_, deviceId),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "deviceType",
-        .dataTypeSpecific.enumDescFunc = PBDeviceType_EnumDescriptor,
-        .number = PBMessageRequest_FieldNumber_DeviceType,
-        .hasIndex = 12,
-        .offset = (uint32_t)offsetof(PBMessageRequest__storage_, deviceType),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom | GPBFieldHasEnumDescriptor),
-        .dataType = GPBDataTypeEnum,
+        .offset = (uint32_t)offsetof(PBMessageRequest__storage_, network),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
       },
       {
         .name = "appVersion",
         .dataTypeSpecific.className = NULL,
         .number = PBMessageRequest_FieldNumber_AppVersion,
-        .hasIndex = 13,
+        .hasIndex = 11,
         .offset = (uint32_t)offsetof(PBMessageRequest__storage_, appVersion),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
@@ -289,25 +302,25 @@ typedef struct PBMessageRequest__storage_ {
         .name = "appKey",
         .dataTypeSpecific.className = NULL,
         .number = PBMessageRequest_FieldNumber_AppKey,
-        .hasIndex = 14,
+        .hasIndex = 12,
         .offset = (uint32_t)offsetof(PBMessageRequest__storage_, appKey),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
       {
-        .name = "token",
+        .name = "accessToken",
         .dataTypeSpecific.className = NULL,
-        .number = PBMessageRequest_FieldNumber_Token,
-        .hasIndex = 15,
-        .offset = (uint32_t)offsetof(PBMessageRequest__storage_, token),
-        .flags = GPBFieldOptional,
+        .number = PBMessageRequest_FieldNumber_AccessToken,
+        .hasIndex = 13,
+        .offset = (uint32_t)offsetof(PBMessageRequest__storage_, accessToken),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
       {
         .name = "signature",
         .dataTypeSpecific.className = NULL,
         .number = PBMessageRequest_FieldNumber_Signature,
-        .hasIndex = 16,
+        .hasIndex = 14,
         .offset = (uint32_t)offsetof(PBMessageRequest__storage_, signature),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
@@ -316,19 +329,10 @@ typedef struct PBMessageRequest__storage_ {
         .name = "adminId",
         .dataTypeSpecific.className = NULL,
         .number = PBMessageRequest_FieldNumber_AdminId,
-        .hasIndex = 17,
+        .hasIndex = 15,
         .offset = (uint32_t)offsetof(PBMessageRequest__storage_, adminId),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeUInt32,
-      },
-      {
-        .name = "network",
-        .dataTypeSpecific.enumDescFunc = PBNetwork_EnumDescriptor,
-        .number = PBMessageRequest_FieldNumber_Network,
-        .hasIndex = 18,
-        .offset = (uint32_t)offsetof(PBMessageRequest__storage_, network),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
-        .dataType = GPBDataTypeEnum,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -341,7 +345,7 @@ typedef struct PBMessageRequest__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\n\004\013\000\005\t\000\007\t\000\010\010\000\t\013\000\n\010\000\013\n\000\014\n\000\r\006\000\020\007\000";
+        "\006\004\013\000\005\t\000\014\n\000\r\006\000\016\013\000\020\007\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
@@ -352,36 +356,12 @@ typedef struct PBMessageRequest__storage_ {
 
 @end
 
-int32_t PBMessageRequest_DeviceType_RawValue(PBMessageRequest *message) {
-  GPBDescriptor *descriptor = [PBMessageRequest descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PBMessageRequest_FieldNumber_DeviceType];
-  return GPBGetMessageInt32Field(message, field);
-}
-
-void SetPBMessageRequest_DeviceType_RawValue(PBMessageRequest *message, int32_t value) {
-  GPBDescriptor *descriptor = [PBMessageRequest descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PBMessageRequest_FieldNumber_DeviceType];
-  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
-}
-
-int32_t PBMessageRequest_Network_RawValue(PBMessageRequest *message) {
-  GPBDescriptor *descriptor = [PBMessageRequest descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PBMessageRequest_FieldNumber_Network];
-  return GPBGetMessageInt32Field(message, field);
-}
-
-void SetPBMessageRequest_Network_RawValue(PBMessageRequest *message, int32_t value) {
-  GPBDescriptor *descriptor = [PBMessageRequest descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PBMessageRequest_FieldNumber_Network];
-  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
-}
-
 #pragma mark - PBMessageResponse
 
 @implementation PBMessageResponse
 
-@dynamic encrypt;
-@dynamic compress;
+@dynamic encrypted;
+@dynamic compressed;
 @dynamic type;
 @dynamic messageData;
 @dynamic appKey;
@@ -406,18 +386,18 @@ typedef struct PBMessageResponse__storage_ {
   if (!descriptor) {
     static GPBMessageFieldDescription fields[] = {
       {
-        .name = "encrypt",
+        .name = "encrypted",
         .dataTypeSpecific.className = NULL,
-        .number = PBMessageResponse_FieldNumber_Encrypt,
+        .number = PBMessageResponse_FieldNumber_Encrypted,
         .hasIndex = 0,
         .offset = 1,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBool,
       },
       {
-        .name = "compress",
+        .name = "compressed",
         .dataTypeSpecific.className = NULL,
-        .number = PBMessageResponse_FieldNumber_Compress,
+        .number = PBMessageResponse_FieldNumber_Compressed,
         .hasIndex = 2,
         .offset = 3,  // Stored in _has_storage_ to save space.
         .flags = GPBFieldOptional,
@@ -499,20 +479,43 @@ typedef struct PBMessageResponse__storage_ {
 
 @end
 
-#pragma mark - PBValidCodeReq
+#pragma mark - PBSocketMessage
 
-@implementation PBValidCodeReq
+@implementation PBSocketMessage
 
-@dynamic mobileCode;
-@dynamic mobile;
-@dynamic validCodeType;
+@dynamic encrypted;
+@dynamic compressed;
+@dynamic type;
+@dynamic messageData;
+@dynamic ack;
+@dynamic requestId;
+@dynamic version;
+@dynamic timestamp;
+@dynamic hasDevice, device;
+@dynamic hasNetwork, network;
+@dynamic appVersion;
+@dynamic appKey;
+@dynamic accessToken;
+@dynamic signature;
+@dynamic resultCode;
+@dynamic resultInfo;
 
-typedef struct PBValidCodeReq__storage_ {
+typedef struct PBSocketMessage__storage_ {
   uint32_t _has_storage_[1];
-  uint32_t validCodeType;
-  NSString *mobileCode;
-  NSString *mobile;
-} PBValidCodeReq__storage_;
+  uint32_t type;
+  uint32_t version;
+  uint32_t resultCode;
+  NSData *messageData;
+  PBDevice *device;
+  PBNetwork *network;
+  NSString *appVersion;
+  NSString *appKey;
+  NSString *accessToken;
+  NSString *signature;
+  NSString *resultInfo;
+  uint64_t requestId;
+  uint64_t timestamp;
+} PBSocketMessage__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -521,44 +524,161 @@ typedef struct PBValidCodeReq__storage_ {
   if (!descriptor) {
     static GPBMessageFieldDescription fields[] = {
       {
-        .name = "mobileCode",
+        .name = "encrypted",
         .dataTypeSpecific.className = NULL,
-        .number = PBValidCodeReq_FieldNumber_MobileCode,
+        .number = PBSocketMessage_FieldNumber_Encrypted,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PBValidCodeReq__storage_, mobileCode),
+        .offset = 1,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "compressed",
+        .dataTypeSpecific.className = NULL,
+        .number = PBSocketMessage_FieldNumber_Compressed,
+        .hasIndex = 2,
+        .offset = 3,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "type",
+        .dataTypeSpecific.className = NULL,
+        .number = PBSocketMessage_FieldNumber_Type,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PBSocketMessage__storage_, type),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt32,
+      },
+      {
+        .name = "messageData",
+        .dataTypeSpecific.className = NULL,
+        .number = PBSocketMessage_FieldNumber_MessageData,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(PBSocketMessage__storage_, messageData),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeBytes,
+      },
+      {
+        .name = "ack",
+        .dataTypeSpecific.className = NULL,
+        .number = PBSocketMessage_FieldNumber_Ack,
+        .hasIndex = 6,
+        .offset = 7,  // Stored in _has_storage_ to save space.
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeBool,
+      },
+      {
+        .name = "requestId",
+        .dataTypeSpecific.className = NULL,
+        .number = PBSocketMessage_FieldNumber_RequestId,
+        .hasIndex = 8,
+        .offset = (uint32_t)offsetof(PBSocketMessage__storage_, requestId),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeUInt64,
+      },
+      {
+        .name = "version",
+        .dataTypeSpecific.className = NULL,
+        .number = PBSocketMessage_FieldNumber_Version,
+        .hasIndex = 9,
+        .offset = (uint32_t)offsetof(PBSocketMessage__storage_, version),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt32,
+      },
+      {
+        .name = "timestamp",
+        .dataTypeSpecific.className = NULL,
+        .number = PBSocketMessage_FieldNumber_Timestamp,
+        .hasIndex = 10,
+        .offset = (uint32_t)offsetof(PBSocketMessage__storage_, timestamp),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt64,
+      },
+      {
+        .name = "device",
+        .dataTypeSpecific.className = GPBStringifySymbol(PBDevice),
+        .number = PBSocketMessage_FieldNumber_Device,
+        .hasIndex = 11,
+        .offset = (uint32_t)offsetof(PBSocketMessage__storage_, device),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "network",
+        .dataTypeSpecific.className = GPBStringifySymbol(PBNetwork),
+        .number = PBSocketMessage_FieldNumber_Network,
+        .hasIndex = 12,
+        .offset = (uint32_t)offsetof(PBSocketMessage__storage_, network),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "appVersion",
+        .dataTypeSpecific.className = NULL,
+        .number = PBSocketMessage_FieldNumber_AppVersion,
+        .hasIndex = 13,
+        .offset = (uint32_t)offsetof(PBSocketMessage__storage_, appVersion),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
       {
-        .name = "mobile",
+        .name = "appKey",
         .dataTypeSpecific.className = NULL,
-        .number = PBValidCodeReq_FieldNumber_Mobile,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PBValidCodeReq__storage_, mobile),
+        .number = PBSocketMessage_FieldNumber_AppKey,
+        .hasIndex = 14,
+        .offset = (uint32_t)offsetof(PBSocketMessage__storage_, appKey),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "accessToken",
+        .dataTypeSpecific.className = NULL,
+        .number = PBSocketMessage_FieldNumber_AccessToken,
+        .hasIndex = 15,
+        .offset = (uint32_t)offsetof(PBSocketMessage__storage_, accessToken),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "signature",
+        .dataTypeSpecific.className = NULL,
+        .number = PBSocketMessage_FieldNumber_Signature,
+        .hasIndex = 16,
+        .offset = (uint32_t)offsetof(PBSocketMessage__storage_, signature),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
-        .name = "validCodeType",
+        .name = "resultCode",
         .dataTypeSpecific.className = NULL,
-        .number = PBValidCodeReq_FieldNumber_ValidCodeType,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PBValidCodeReq__storage_, validCodeType),
+        .number = PBSocketMessage_FieldNumber_ResultCode,
+        .hasIndex = 17,
+        .offset = (uint32_t)offsetof(PBSocketMessage__storage_, resultCode),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeUInt32,
       },
+      {
+        .name = "resultInfo",
+        .dataTypeSpecific.className = NULL,
+        .number = PBSocketMessage_FieldNumber_ResultInfo,
+        .hasIndex = 18,
+        .offset = (uint32_t)offsetof(PBSocketMessage__storage_, resultInfo),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PBValidCodeReq class]
+        [GPBDescriptor allocDescriptorForClass:[PBSocketMessage class]
                                      rootClass:[BasicMessageRoot class]
                                           file:BasicMessageRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PBValidCodeReq__storage_)
+                                   storageSize:sizeof(PBSocketMessage__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\002\001\n\000\003\r\000";
+        "\007\004\013\000\006\t\000\013\n\000\014\006\000\r\013\000\017\n\000\020\n\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

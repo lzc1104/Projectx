@@ -27,14 +27,14 @@
 
 CF_EXTERN_C_BEGIN
 
-GPB_ENUM_FWD_DECLARE(PBDeviceType);
-GPB_ENUM_FWD_DECLARE(PBNetwork);
+@class PBDevice;
+@class PBNetwork;
 
 NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Enum PBMessageType
 
-/** 通用消息定义在 0-9999 之间 */
+/** 通用消息定义在 0 - 9999 之间 */
 typedef GPB_ENUM(PBMessageType) {
   /**
    * Value used if any message's field encounters a value that is not defined
@@ -101,17 +101,62 @@ typedef GPB_ENUM(PBMessageType) {
   /** 根据经纬度查询对应的Location数据, PBLocationDetectReq -> PBLocation */
   PBMessageType_LocationDetect = 62,
 
-  /** 得到所有省份 */
+  /** 得到所有省份 PBStrValue --> PBLocationList */
   PBMessageType_LocationGetProvince = 64,
 
-  /** 根据省份得到所有市 */
+  /** 根据省份得到所有市 PBLocationQueryReq --> PBLocationList */
   PBMessageType_LocationGetCityByProvince = 65,
 
-  /** 根据市得到区县 */
+  /** 根据市得到区县 PBLocationQueryReq --> PBLocationList */
   PBMessageType_LocationGetDistrictByCity = 66,
 
-  /** 根据id 得到Location */
+  /** 根据id 得到 PBIntValue --> PBLocation */
   PBMessageType_LocationGetById = 67,
+
+  /** 获取热门城市信息  void --> PBLocationList */
+  PBMessageType_LocationHotCities = 68,
+
+  /** 设置热门城市信息  PBStrValue --> void */
+  PBMessageType_LocationSetHotCity = 69,
+
+  /** 取消设置热门城市信息  PBStrValue --> void */
+  PBMessageType_LocationUnSetHotCity = 70,
+
+  /** 刷新location缓存 void --> void */
+  PBMessageType_LocationRefreshCache = 71,
+
+  /** 设置城市的城市等级 PBUpdateLocationCityLevelReq --> void */
+  PBMessageType_LocationUpdateCityLevel = 72,
+
+  /** 根据城市等级获取城市列表 PBGetLocationByCityLevelReq --> PBLocationList */
+  PBMessageType_LocationGetByCityLevel = 73,
+
+  /** 根据地址名称 和城市id 获取经纬度 PBGetLocationLntLat --> PBLocationLntLat */
+  PBMessageType_LocationGetLngLat = 74,
+
+  /** 添加推送消息 PBPushMessage ->  void */
+  PBMessageType_PushMessageAdd = 99,
+
+  /** 获取推送消息列表 PBPushMessageSearchListReq -> PBPushMessageList */
+  PBMessageType_PushMessageSearchList = 100,
+
+  /** 单独查看某条消息 PBIntValue -> PBPushMessage */
+  PBMessageType_PushMessageGetById = 101,
+
+  /** 客户端请求 9000 - 9499 */
+  PBMessageType_SocketLogin = 9000,
+
+  /** WebSocket 心跳消息类型，消息体的内容随意，但不要为空，服务器收到消息之后，会返回一个相同类型的消息 */
+  PBMessageType_SocketPingPong = 9001,
+
+  /** 订阅 topic，服务器可能会按照 topic 对一组用户进行广播，PBStrValue(topic) --> void */
+  PBMessageType_SocketSubscribeTopic = 9002,
+
+  /** 解除订阅 topic，PBStrValue(topic) --> void */
+  PBMessageType_SocketUnsubscribeTopic = 9003,
+
+  /** 服务器推送 9500 - 9999 */
+  PBMessageType_SocketMultiLogin = 95000,
 };
 
 GPBEnumDescriptor *PBMessageType_EnumDescriptor(void);
@@ -140,23 +185,20 @@ BOOL PBMessageType_IsValidValue(int32_t value);
 #pragma mark - PBMessageRequest
 
 typedef GPB_ENUM(PBMessageRequest_FieldNumber) {
-  PBMessageRequest_FieldNumber_Encrypt = 1,
-  PBMessageRequest_FieldNumber_Compress = 2,
+  PBMessageRequest_FieldNumber_Encrypted = 1,
+  PBMessageRequest_FieldNumber_Compressed = 2,
   PBMessageRequest_FieldNumber_Type = 3,
   PBMessageRequest_FieldNumber_MessageData = 4,
   PBMessageRequest_FieldNumber_RequestId = 5,
   PBMessageRequest_FieldNumber_Version = 6,
-  PBMessageRequest_FieldNumber_TimeStamp = 7,
-  PBMessageRequest_FieldNumber_DeviceOs = 8,
-  PBMessageRequest_FieldNumber_DeviceModel = 9,
-  PBMessageRequest_FieldNumber_DeviceId = 10,
-  PBMessageRequest_FieldNumber_DeviceType = 11,
+  PBMessageRequest_FieldNumber_Timestamp = 7,
+  PBMessageRequest_FieldNumber_Device = 8,
+  PBMessageRequest_FieldNumber_Network = 9,
   PBMessageRequest_FieldNumber_AppVersion = 12,
   PBMessageRequest_FieldNumber_AppKey = 13,
-  PBMessageRequest_FieldNumber_Token = 14,
+  PBMessageRequest_FieldNumber_AccessToken = 14,
   PBMessageRequest_FieldNumber_Signature = 15,
   PBMessageRequest_FieldNumber_AdminId = 16,
-  PBMessageRequest_FieldNumber_Network = 18,
 };
 
 /**
@@ -165,10 +207,10 @@ typedef GPB_ENUM(PBMessageRequest_FieldNumber) {
 @interface PBMessageRequest : GPBMessage
 
 /** 数据是否加密 */
-@property(nonatomic, readwrite) BOOL encrypt;
+@property(nonatomic, readwrite) BOOL encrypted;
 
 /** 数据是否压缩 */
-@property(nonatomic, readwrite) BOOL compress;
+@property(nonatomic, readwrite) BOOL compressed;
 
 /** 消息类型 */
 @property(nonatomic, readwrite) uint32_t type;
@@ -179,73 +221,44 @@ typedef GPB_ENUM(PBMessageRequest_FieldNumber) {
 /** 请求 ID */
 @property(nonatomic, readwrite) uint64_t requestId;
 
-/** 消息接口版本 */
+/** 消息接口版本，暂无用 */
 @property(nonatomic, readwrite) uint32_t version;
 
 /** 客户端时间戳 */
-@property(nonatomic, readwrite) uint64_t timeStamp;
+@property(nonatomic, readwrite) uint64_t timestamp;
 
-/** 设备操作系统 */
-@property(nonatomic, readwrite) uint32_t deviceOs;
+/** 设备信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PBDevice *device;
+/** Test to see if @c device has been set. */
+@property(nonatomic, readwrite) BOOL hasDevice;
 
-/** 设备模型 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *deviceModel;
-
-/** 设备ID */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *deviceId;
-
-/** 设备类型，参考PBDeviceType */
-@property(nonatomic, readwrite) enum PBDeviceType deviceType;
+/** 网络信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PBNetwork *network;
+/** Test to see if @c network has been set. */
+@property(nonatomic, readwrite) BOOL hasNetwork;
 
 /** 应用程序版本号 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *appVersion;
 
-/** 客户端APP KEY，各个客户端不同，用于加密 */
+/** 客户端 APP KEY，用于加密 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *appKey;
 
-/** 用户TOKEN，暂无用 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *token;
+/** 用户登录后服务器返回的 token，用于登录校验 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *accessToken;
 
 /** 数据签名，用于防伪，暂无用 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *signature;
 
-/** 管理员 ID */
+/** 管理员 ID（后台管理系统使用） */
 @property(nonatomic, readwrite) uint32_t adminId;
 
-/** 网络类型，参考PBNetwork */
-@property(nonatomic, readwrite) enum PBNetwork network;
-
 @end
-
-/**
- * Fetches the raw value of a @c PBMessageRequest's @c deviceType property, even
- * if the value was not defined by the enum at the time the code was generated.
- **/
-int32_t PBMessageRequest_DeviceType_RawValue(PBMessageRequest *message);
-/**
- * Sets the raw value of an @c PBMessageRequest's @c deviceType property, allowing
- * it to be set to a value that was not defined by the enum at the time the code
- * was generated.
- **/
-void SetPBMessageRequest_DeviceType_RawValue(PBMessageRequest *message, int32_t value);
-
-/**
- * Fetches the raw value of a @c PBMessageRequest's @c network property, even
- * if the value was not defined by the enum at the time the code was generated.
- **/
-int32_t PBMessageRequest_Network_RawValue(PBMessageRequest *message);
-/**
- * Sets the raw value of an @c PBMessageRequest's @c network property, allowing
- * it to be set to a value that was not defined by the enum at the time the code
- * was generated.
- **/
-void SetPBMessageRequest_Network_RawValue(PBMessageRequest *message, int32_t value);
 
 #pragma mark - PBMessageResponse
 
 typedef GPB_ENUM(PBMessageResponse_FieldNumber) {
-  PBMessageResponse_FieldNumber_Encrypt = 1,
-  PBMessageResponse_FieldNumber_Compress = 2,
+  PBMessageResponse_FieldNumber_Encrypted = 1,
+  PBMessageResponse_FieldNumber_Compressed = 2,
   PBMessageResponse_FieldNumber_Type = 3,
   PBMessageResponse_FieldNumber_MessageData = 4,
   PBMessageResponse_FieldNumber_RequestId = 5,
@@ -260,10 +273,10 @@ typedef GPB_ENUM(PBMessageResponse_FieldNumber) {
 @interface PBMessageResponse : GPBMessage
 
 /** 返回数据是否加密 */
-@property(nonatomic, readwrite) BOOL encrypt;
+@property(nonatomic, readwrite) BOOL encrypted;
 
 /** 返回数据是否压缩 */
-@property(nonatomic, readwrite) BOOL compress;
+@property(nonatomic, readwrite) BOOL compressed;
 
 /** 消息类型 */
 @property(nonatomic, readwrite) uint32_t type;
@@ -271,38 +284,97 @@ typedef GPB_ENUM(PBMessageResponse_FieldNumber) {
 /** 返回数据 */
 @property(nonatomic, readwrite, copy, null_resettable) NSData *messageData;
 
-/** 客户端APP KEY，各个客户端不同，用于加密 */
+/** APP KEY，用于加密 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *appKey;
 
-/** 返回的ID，和请求ID一致 */
+/** 该响应对应的请求 ID */
 @property(nonatomic, readwrite) uint64_t requestId;
 
-/** 返回的结果码 (PBError) */
+/** 返回的结果码 */
 @property(nonatomic, readwrite) uint32_t resultCode;
 
-/** 返回的结果消息提示文本（一般用于错误提示） */
+/** 返回的结果消息提示文本（用于错误提示） */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *resultInfo;
 
 @end
 
-#pragma mark - PBValidCodeReq
+#pragma mark - PBSocketMessage
 
-typedef GPB_ENUM(PBValidCodeReq_FieldNumber) {
-  PBValidCodeReq_FieldNumber_MobileCode = 1,
-  PBValidCodeReq_FieldNumber_Mobile = 2,
-  PBValidCodeReq_FieldNumber_ValidCodeType = 3,
+typedef GPB_ENUM(PBSocketMessage_FieldNumber) {
+  PBSocketMessage_FieldNumber_Encrypted = 1,
+  PBSocketMessage_FieldNumber_Compressed = 2,
+  PBSocketMessage_FieldNumber_Type = 3,
+  PBSocketMessage_FieldNumber_MessageData = 4,
+  PBSocketMessage_FieldNumber_Ack = 5,
+  PBSocketMessage_FieldNumber_RequestId = 6,
+  PBSocketMessage_FieldNumber_Version = 7,
+  PBSocketMessage_FieldNumber_Timestamp = 8,
+  PBSocketMessage_FieldNumber_Device = 9,
+  PBSocketMessage_FieldNumber_Network = 10,
+  PBSocketMessage_FieldNumber_AppVersion = 11,
+  PBSocketMessage_FieldNumber_AppKey = 12,
+  PBSocketMessage_FieldNumber_AccessToken = 13,
+  PBSocketMessage_FieldNumber_Signature = 14,
+  PBSocketMessage_FieldNumber_ResultCode = 15,
+  PBSocketMessage_FieldNumber_ResultInfo = 16,
 };
 
-@interface PBValidCodeReq : GPBMessage
+/**
+ * WebSocket 消息包
+ **/
+@interface PBSocketMessage : GPBMessage
 
-/** 国际电话区号，默认为 86，可选 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *mobileCode;
+/** 数据是否加密 */
+@property(nonatomic, readwrite) BOOL encrypted;
 
-/** 手机号 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *mobile;
+/** 数据是否压缩 */
+@property(nonatomic, readwrite) BOOL compressed;
 
-/** 验证码类型 */
-@property(nonatomic, readwrite) uint32_t validCodeType;
+/** 消息类型 */
+@property(nonatomic, readwrite) uint32_t type;
+
+/** 请求数据 */
+@property(nonatomic, readwrite, copy, null_resettable) NSData *messageData;
+
+/** 该消息是否为 ack 响应 */
+@property(nonatomic, readwrite) BOOL ack;
+
+/** 该消息的唯一ID，当 ack 为 false 时，由发送方生成，当 ack 为 true 时，须与请求消息的 ID 保持一致 */
+@property(nonatomic, readwrite) uint64_t requestId;
+
+/** 消息接口版本，暂无用 */
+@property(nonatomic, readwrite) uint32_t version;
+
+/** 发送消息的时间戳 */
+@property(nonatomic, readwrite) uint64_t timestamp;
+
+/** 设备信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PBDevice *device;
+/** Test to see if @c device has been set. */
+@property(nonatomic, readwrite) BOOL hasDevice;
+
+/** 网络信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PBNetwork *network;
+/** Test to see if @c network has been set. */
+@property(nonatomic, readwrite) BOOL hasNetwork;
+
+/** 应用程序版本号 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *appVersion;
+
+/** 客户端APP KEY，各个客户端不同，用于加密 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *appKey;
+
+/** 用户登录后服务器返回的 token，用于登录校验 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *accessToken;
+
+/** 数据签名，用于防伪，暂无用 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *signature;
+
+/** 结果码，仅当 ack 为 true 时使用 */
+@property(nonatomic, readwrite) uint32_t resultCode;
+
+/** 结果提示文本，仅当 ack 为 true 时使用 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *resultInfo;
 
 @end
 

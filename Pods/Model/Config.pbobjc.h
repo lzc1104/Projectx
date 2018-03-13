@@ -33,10 +33,34 @@ CF_EXTERN_C_BEGIN
 @class PBLocation;
 @class PBQiniuTokenHost;
 @class PBShareConfig;
+@class PBSocialAppConfig;
 @class PBSystemParaConfig;
-@class PBWeChatConfig;
 
 NS_ASSUME_NONNULL_BEGIN
+
+#pragma mark - Enum PBSmsProvider
+
+typedef GPB_ENUM(PBSmsProvider) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PBSmsProvider_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** ihuyi */
+  PBSmsProvider_Ihuyi = 0,
+
+  /** jianzhou */
+  PBSmsProvider_Jianzhou = 1,
+};
+
+GPBEnumDescriptor *PBSmsProvider_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PBSmsProvider_IsValidValue(int32_t value);
 
 #pragma mark - ConfigRoot
 
@@ -60,11 +84,13 @@ typedef GPB_ENUM(PBBasicConfig_FieldNumber) {
   PBBasicConfig_FieldNumber_AndroidSplash = 2,
   PBBasicConfig_FieldNumber_IosVersion = 3,
   PBBasicConfig_FieldNumber_AndroidVersion = 4,
+  PBBasicConfig_FieldNumber_Copyright = 5,
   PBBasicConfig_FieldNumber_ShareConfig = 10,
   PBBasicConfig_FieldNumber_URLConfig = 11,
-  PBBasicConfig_FieldNumber_WechatConfig = 12,
-  PBBasicConfig_FieldNumber_DefaultQiniuHost = 13,
-  PBBasicConfig_FieldNumber_BussinessConfig = 20,
+  PBBasicConfig_FieldNumber_SocialConfig = 12,
+  PBBasicConfig_FieldNumber_QiniuHostTokensArray = 13,
+  PBBasicConfig_FieldNumber_HTTPDnsAccount = 14,
+  PBBasicConfig_FieldNumber_BusinessConfig = 30,
 };
 
 @interface PBBasicConfig : GPBMessage
@@ -85,7 +111,10 @@ typedef GPB_ENUM(PBBasicConfig_FieldNumber) {
 /** Test to see if @c androidVersion has been set. */
 @property(nonatomic, readwrite) BOOL hasAndroidVersion;
 
-/** 配置字段 */
+/** 版权所有 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *copyright;
+
+/** 分享相关设置 */
 @property(nonatomic, readwrite, strong, null_resettable) PBShareConfig *shareConfig;
 /** Test to see if @c shareConfig has been set. */
 @property(nonatomic, readwrite) BOOL hasShareConfig;
@@ -95,18 +124,21 @@ typedef GPB_ENUM(PBBasicConfig_FieldNumber) {
 /** Test to see if @c URLConfig has been set. */
 @property(nonatomic, readwrite) BOOL hasURLConfig;
 
-/** 微信配置 */
-@property(nonatomic, readwrite, strong, null_resettable) PBWeChatConfig *wechatConfig;
-/** Test to see if @c wechatConfig has been set. */
-@property(nonatomic, readwrite) BOOL hasWechatConfig;
+/** 社交App相关配置 */
+@property(nonatomic, readwrite, strong, null_resettable) PBSocialAppConfig *socialConfig;
+/** Test to see if @c socialConfig has been set. */
+@property(nonatomic, readwrite) BOOL hasSocialConfig;
 
-/** 七牛默认配置 */
-@property(nonatomic, readwrite, strong, null_resettable) PBQiniuTokenHost *defaultQiniuHost;
-/** Test to see if @c defaultQiniuHost has been set. */
-@property(nonatomic, readwrite) BOOL hasDefaultQiniuHost;
+/** 七牛 Host token */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PBQiniuTokenHost*> *qiniuHostTokensArray;
+/** The number of items in @c qiniuHostTokensArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger qiniuHostTokensArray_Count;
 
-/** 业务配置 */
-@property(nonatomic, readwrite, copy, null_resettable) NSData *bussinessConfig;
+/** httpDns account */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *HTTPDnsAccount;
+
+/** 具体的业务配置 */
+@property(nonatomic, readwrite, copy, null_resettable) NSData *businessConfig;
 
 @end
 
@@ -114,8 +146,9 @@ typedef GPB_ENUM(PBBasicConfig_FieldNumber) {
 
 typedef GPB_ENUM(PBDynamicURLConfig_FieldNumber) {
   PBDynamicURLConfig_FieldNumber_OfficialWebsite = 1,
-  PBDynamicURLConfig_FieldNumber_WechatPublicAccount = 2,
-  PBDynamicURLConfig_FieldNumber_UserAgreementURL = 3,
+  PBDynamicURLConfig_FieldNumber_UserAgreementURL = 2,
+  PBDynamicURLConfig_FieldNumber_WeexServerURL = 3,
+  PBDynamicURLConfig_FieldNumber_OfficialMobileWebsite = 4,
 };
 
 @interface PBDynamicURLConfig : GPBMessage
@@ -123,46 +156,45 @@ typedef GPB_ENUM(PBDynamicURLConfig_FieldNumber) {
 /** APP配置 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *officialWebsite;
 
-/** APP微信公众号 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *wechatPublicAccount;
-
 /** APP用户协议 URL */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *userAgreementURL;
 
+/** APP中Weex页面的服务器地址,用于内置weex服务,如业余足球的赛事榜单 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *weexServerURL;
+
+/** APP移动官网地址 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *officialMobileWebsite;
+
 @end
 
-#pragma mark - PBWeChatConfig
+#pragma mark - PBSocialAppConfig
 
-typedef GPB_ENUM(PBWeChatConfig_FieldNumber) {
-  PBWeChatConfig_FieldNumber_WechatAppKey = 1,
-  PBWeChatConfig_FieldNumber_WechatAppSecret = 2,
-  PBWeChatConfig_FieldNumber_WechatShareConfig = 3,
-  PBWeChatConfig_FieldNumber_QqAppKey = 11,
-  PBWeChatConfig_FieldNumber_QqAppSecret = 12,
-  PBWeChatConfig_FieldNumber_QqShareConfig = 13,
+typedef GPB_ENUM(PBSocialAppConfig_FieldNumber) {
+  PBSocialAppConfig_FieldNumber_WechatAppKey = 1,
+  PBSocialAppConfig_FieldNumber_WechatAppSecret = 2,
+  PBSocialAppConfig_FieldNumber_WechatPublicAccount = 3,
+  PBSocialAppConfig_FieldNumber_QqAppKey = 11,
+  PBSocialAppConfig_FieldNumber_QqAppSecret = 12,
+  PBSocialAppConfig_FieldNumber_QqGroupNumber = 13,
 };
 
-@interface PBWeChatConfig : GPBMessage
+@interface PBSocialAppConfig : GPBMessage
 
 /** 微信设置 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *wechatAppKey;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *wechatAppSecret;
 
-/** 微信分享设置 */
-@property(nonatomic, readwrite, strong, null_resettable) PBShareConfig *wechatShareConfig;
-/** Test to see if @c wechatShareConfig has been set. */
-@property(nonatomic, readwrite) BOOL hasWechatShareConfig;
+/** 微信公众号 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *wechatPublicAccount;
 
 /** QQ设置 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *qqAppKey;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *qqAppSecret;
 
-/** QQ分享设置 */
-@property(nonatomic, readwrite, strong, null_resettable) PBShareConfig *qqShareConfig;
-/** Test to see if @c qqShareConfig has been set. */
-@property(nonatomic, readwrite) BOOL hasQqShareConfig;
+/** QQ群号码 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *qqGroupNumber;
 
 @end
 
@@ -171,6 +203,7 @@ typedef GPB_ENUM(PBWeChatConfig_FieldNumber) {
 typedef GPB_ENUM(PBQiniuTokenHost_FieldNumber) {
   PBQiniuTokenHost_FieldNumber_Token = 1,
   PBQiniuTokenHost_FieldNumber_Host = 2,
+  PBQiniuTokenHost_FieldNumber_Tag = 3,
 };
 
 @interface PBQiniuTokenHost : GPBMessage
@@ -178,6 +211,8 @@ typedef GPB_ENUM(PBQiniuTokenHost_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *token;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *host;
+
+@property(nonatomic, readwrite) uint32_t tag;
 
 @end
 
@@ -212,7 +247,7 @@ typedef GPB_ENUM(PBIOSVersion_FieldNumber) {
   PBIOSVersion_FieldNumber_ReviewVersion = 1,
   PBIOSVersion_FieldNumber_LatestVersion = 2,
   PBIOSVersion_FieldNumber_URL = 3,
-  PBIOSVersion_FieldNumber_ForceUpdateVersionsArray = 4,
+  PBIOSVersion_FieldNumber_ForceVersionsArray = 4,
   PBIOSVersion_FieldNumber_Title = 5,
   PBIOSVersion_FieldNumber_ContentsArray = 6,
 };
@@ -229,9 +264,9 @@ typedef GPB_ENUM(PBIOSVersion_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *URL;
 
 /** 强制更新的版本号 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *forceUpdateVersionsArray;
-/** The number of items in @c forceUpdateVersionsArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger forceUpdateVersionsArray_Count;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *forceVersionsArray;
+/** The number of items in @c forceVersionsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger forceVersionsArray_Count;
 
 /** 更新的提示语 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *title;
@@ -240,6 +275,47 @@ typedef GPB_ENUM(PBIOSVersion_FieldNumber) {
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *contentsArray;
 /** The number of items in @c contentsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger contentsArray_Count;
+
+@end
+
+#pragma mark - PBAndroidVersion
+
+typedef GPB_ENUM(PBAndroidVersion_FieldNumber) {
+  PBAndroidVersion_FieldNumber_VersionCode = 1,
+  PBAndroidVersion_FieldNumber_VersionName = 2,
+  PBAndroidVersion_FieldNumber_URL = 3,
+  PBAndroidVersion_FieldNumber_Md5 = 4,
+  PBAndroidVersion_FieldNumber_Title = 5,
+  PBAndroidVersion_FieldNumber_ContentsArray = 6,
+  PBAndroidVersion_FieldNumber_ForceVersionsArray = 7,
+};
+
+@interface PBAndroidVersion : GPBMessage
+
+/** 最新版本 */
+@property(nonatomic, readwrite) uint32_t versionCode;
+
+/** 最新版本名 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *versionName;
+
+/** apk url */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *URL;
+
+/** apk md5 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *md5;
+
+/** 更新的提示语 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *title;
+
+/** 更新内容 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *contentsArray;
+/** The number of items in @c contentsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger contentsArray_Count;
+
+/** 强制更新的版本号 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *forceVersionsArray;
+/** The number of items in @c forceVersionsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger forceVersionsArray_Count;
 
 @end
 
@@ -264,47 +340,6 @@ typedef GPB_ENUM(PBLocationConfig_FieldNumber) {
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PBLocation*> *othersArray;
 /** The number of items in @c othersArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger othersArray_Count;
-
-@end
-
-#pragma mark - PBAndroidVersion
-
-typedef GPB_ENUM(PBAndroidVersion_FieldNumber) {
-  PBAndroidVersion_FieldNumber_VersionCode = 1,
-  PBAndroidVersion_FieldNumber_VersionName = 2,
-  PBAndroidVersion_FieldNumber_URL = 3,
-  PBAndroidVersion_FieldNumber_Md5 = 4,
-  PBAndroidVersion_FieldNumber_ForceUpdateVersionCodesArray = 5,
-  PBAndroidVersion_FieldNumber_Title = 6,
-  PBAndroidVersion_FieldNumber_ContentsArray = 7,
-};
-
-@interface PBAndroidVersion : GPBMessage
-
-/** 最新版本 */
-@property(nonatomic, readwrite) uint32_t versionCode;
-
-/** 最新版本名 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *versionName;
-
-/** apk url */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *URL;
-
-/** apk md5 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *md5;
-
-/** 强制更新的版本号 */
-@property(nonatomic, readwrite, strong, null_resettable) GPBUInt32Array *forceUpdateVersionCodesArray;
-/** The number of items in @c forceUpdateVersionCodesArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger forceUpdateVersionCodesArray_Count;
-
-/** 更新的提示语 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *title;
-
-/** 更新内容 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<NSString*> *contentsArray;
-/** The number of items in @c contentsArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger contentsArray_Count;
 
 @end
 

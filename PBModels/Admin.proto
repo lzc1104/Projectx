@@ -23,11 +23,12 @@ message PBAdmin {
 
 message PBAdminLog {
     uint64 id = 1;                          // ID
-    PBAdmin admin = 2;                      // admin
+    uint32 adminId = 2;                     // adminId
     string adminName = 3;                   // 管理员名字
     string event = 4;                       // 事件
     string description = 5;                 // 操作的具体描述
     uint64 createDate = 6;                  // 操作日期
+    uint32 messageType = 7;                 // 消息类型
 }
 
 message PBGetAdminListReq {
@@ -55,5 +56,5 @@ message PBGetAdminLogListReq {
 
 message PBAdminLogList {
     repeated PBAdminLog logs = 1;           // 管理员操作日志列表
-    PBPageInfo page = 2;                    // 分页信息
+    PBPageInfo pageInfo = 2;                    // 分页信息
 }

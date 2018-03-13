@@ -27,11 +27,9 @@
 
 CF_EXTERN_C_BEGIN
 
+@class PBDevice;
+@class PBDeviceScreenSize;
 @class PBKeyValue;
-@class PBLocation;
-@class PBPageInfo;
-@class PBPagePara;
-@class PBUserFeedback;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -62,6 +60,40 @@ GPBEnumDescriptor *PBDeviceType_EnumDescriptor(void);
  **/
 BOOL PBDeviceType_IsValidValue(int32_t value);
 
+#pragma mark - Enum PBNetworkType
+
+/** 网络类型 */
+typedef GPB_ENUM(PBNetworkType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PBNetworkType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 未知网络 */
+  PBNetworkType_NetUnknown = 0,
+
+  /** WIFI */
+  PBNetworkType_NetWifi = 1,
+
+  /** 2G网络 */
+  PBNetworkType_Net2G = 2,
+
+  /** 3G网络 */
+  PBNetworkType_Net3G = 3,
+
+  /** 4G网络 */
+  PBNetworkType_Net4G = 4,
+};
+
+GPBEnumDescriptor *PBNetworkType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PBNetworkType_IsValidValue(int32_t value);
+
 #pragma mark - Enum PBPaymentChannel
 
 typedef GPB_ENUM(PBPaymentChannel) {
@@ -88,6 +120,33 @@ GPBEnumDescriptor *PBPaymentChannel_EnumDescriptor(void);
  * the time this source was generated.
  **/
 BOOL PBPaymentChannel_IsValidValue(int32_t value);
+
+#pragma mark - Enum PBSex
+
+typedef GPB_ENUM(PBSex) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  PBSex_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 未填 */
+  PBSex_SexNone = 0,
+
+  /** 男 */
+  PBSex_SexMale = 1,
+
+  /** 女 */
+  PBSex_SexFemale = 2,
+};
+
+GPBEnumDescriptor *PBSex_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL PBSex_IsValidValue(int32_t value);
 
 #pragma mark - Enum PBBoolValue
 
@@ -117,88 +176,6 @@ GPBEnumDescriptor *PBBoolValue_EnumDescriptor(void);
  **/
 BOOL PBBoolValue_IsValidValue(int32_t value);
 
-#pragma mark - Enum PBNetwork
-
-/** 网络类型 */
-typedef GPB_ENUM(PBNetwork) {
-  /**
-   * Value used if any message's field encounters a value that is not defined
-   * by this enum. The message will also have C functions to get/set the rawValue
-   * of the field.
-   **/
-  PBNetwork_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  /** wifi */
-  PBNetwork_NetWifi = 0,
-
-  /** 移动 */
-  PBNetwork_NetMobile = 1,
-
-  /** 电信 */
-  PBNetwork_NetTelecom = 2,
-
-  /** 联通 */
-  PBNetwork_NetUnicom = 3,
-};
-
-GPBEnumDescriptor *PBNetwork_EnumDescriptor(void);
-
-/**
- * Checks to see if the given value is defined by the enum or was not known at
- * the time this source was generated.
- **/
-BOOL PBNetwork_IsValidValue(int32_t value);
-
-#pragma mark - Enum PBFeedbackStatus
-
-typedef GPB_ENUM(PBFeedbackStatus) {
-  /**
-   * Value used if any message's field encounters a value that is not defined
-   * by this enum. The message will also have C functions to get/set the rawValue
-   * of the field.
-   **/
-  PBFeedbackStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  /** 待处理 */
-  PBFeedbackStatus_FeedbackPending = 0,
-
-  /** 已处理 */
-  PBFeedbackStatus_FeedbackProcessed = 1,
-};
-
-GPBEnumDescriptor *PBFeedbackStatus_EnumDescriptor(void);
-
-/**
- * Checks to see if the given value is defined by the enum or was not known at
- * the time this source was generated.
- **/
-BOOL PBFeedbackStatus_IsValidValue(int32_t value);
-
-#pragma mark - Enum PBSex
-
-typedef GPB_ENUM(PBSex) {
-  /**
-   * Value used if any message's field encounters a value that is not defined
-   * by this enum. The message will also have C functions to get/set the rawValue
-   * of the field.
-   **/
-  PBSex_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
-  /** 未填 */
-  PBSex_SexNone = 0,
-
-  /** 男 */
-  PBSex_SexMale = 1,
-
-  /** 女 */
-  PBSex_SexFemale = 2,
-};
-
-GPBEnumDescriptor *PBSex_EnumDescriptor(void);
-
-/**
- * Checks to see if the given value is defined by the enum or was not known at
- * the time this source was generated.
- **/
-BOOL PBSex_IsValidValue(int32_t value);
-
 #pragma mark - CommonModelRoot
 
 /**
@@ -213,6 +190,91 @@ BOOL PBSex_IsValidValue(int32_t value);
  **/
 @interface CommonModelRoot : GPBRootObject
 @end
+
+#pragma mark - PBDeviceScreenSize
+
+typedef GPB_ENUM(PBDeviceScreenSize_FieldNumber) {
+  PBDeviceScreenSize_FieldNumber_Width = 1,
+  PBDeviceScreenSize_FieldNumber_Height = 2,
+};
+
+@interface PBDeviceScreenSize : GPBMessage
+
+/** 屏幕宽度 */
+@property(nonatomic, readwrite) int32_t width;
+
+/** 屏幕高度 */
+@property(nonatomic, readwrite) int32_t height;
+
+@end
+
+#pragma mark - PBDevice
+
+typedef GPB_ENUM(PBDevice_FieldNumber) {
+  PBDevice_FieldNumber_DeviceOs = 1,
+  PBDevice_FieldNumber_DeviceModel = 2,
+  PBDevice_FieldNumber_DeviceId = 3,
+  PBDevice_FieldNumber_DeviceType = 4,
+  PBDevice_FieldNumber_ScreenSize = 5,
+};
+
+@interface PBDevice : GPBMessage
+
+/** 设备操作系统 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *deviceOs;
+
+/** 设备模型 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *deviceModel;
+
+/** 设备ID */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *deviceId;
+
+/** 设备类型，参考PBDeviceType */
+@property(nonatomic, readwrite) PBDeviceType deviceType;
+
+/** 设备屏幕尺寸 */
+@property(nonatomic, readwrite, strong, null_resettable) PBDeviceScreenSize *screenSize;
+/** Test to see if @c screenSize has been set. */
+@property(nonatomic, readwrite) BOOL hasScreenSize;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PBDevice's @c deviceType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PBDevice_DeviceType_RawValue(PBDevice *message);
+/**
+ * Sets the raw value of an @c PBDevice's @c deviceType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPBDevice_DeviceType_RawValue(PBDevice *message, int32_t value);
+
+#pragma mark - PBNetwork
+
+typedef GPB_ENUM(PBNetwork_FieldNumber) {
+  PBNetwork_FieldNumber_Type = 1,
+};
+
+@interface PBNetwork : GPBMessage
+
+/** 网络类型 */
+@property(nonatomic, readwrite) PBNetworkType type;
+
+@end
+
+/**
+ * Fetches the raw value of a @c PBNetwork's @c type property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t PBNetwork_Type_RawValue(PBNetwork *message);
+/**
+ * Sets the raw value of an @c PBNetwork's @c type property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetPBNetwork_Type_RawValue(PBNetwork *message, int32_t value);
 
 #pragma mark - PBPagePara
 
@@ -270,7 +332,6 @@ typedef GPB_ENUM(PBIntValue_FieldNumber) {
 
 @interface PBIntValue : GPBMessage
 
-/** 值 */
 @property(nonatomic, readwrite) uint32_t value;
 
 @end
@@ -283,7 +344,6 @@ typedef GPB_ENUM(PBLongValue_FieldNumber) {
 
 @interface PBLongValue : GPBMessage
 
-/** 值 */
 @property(nonatomic, readwrite) uint64_t value;
 
 @end
@@ -296,7 +356,6 @@ typedef GPB_ENUM(PBStrValue_FieldNumber) {
 
 @interface PBStrValue : GPBMessage
 
-/** 值 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *value;
 
 @end
@@ -336,269 +395,62 @@ typedef GPB_ENUM(PBKeyValueList_FieldNumber) {
 
 @end
 
-#pragma mark - PBLocation
+#pragma mark - PBValidCodeReq
 
-typedef GPB_ENUM(PBLocation_FieldNumber) {
-  PBLocation_FieldNumber_LocationId = 1,
-  PBLocation_FieldNumber_Oversea = 2,
-  PBLocation_FieldNumber_ContinentId = 3,
-  PBLocation_FieldNumber_CountryId = 4,
-  PBLocation_FieldNumber_ProvinceId = 5,
-  PBLocation_FieldNumber_CityId = 6,
-  PBLocation_FieldNumber_DistrictId = 7,
-  PBLocation_FieldNumber_LocationName = 8,
-  PBLocation_FieldNumber_Hot = 9,
+typedef GPB_ENUM(PBValidCodeReq_FieldNumber) {
+  PBValidCodeReq_FieldNumber_MobileCode = 1,
+  PBValidCodeReq_FieldNumber_Mobile = 2,
+  PBValidCodeReq_FieldNumber_ValidCodeType = 3,
 };
 
-/**
- * 地区数据
- **/
-@interface PBLocation : GPBMessage
+@interface PBValidCodeReq : GPBMessage
 
-/** 地区ID（唯一编号） */
-@property(nonatomic, readwrite) uint32_t locationId;
+/** 国际电话区号，默认为 86，可选 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *mobileCode;
 
-/** 是否国外（海外） */
-@property(nonatomic, readwrite) BOOL oversea;
+/** 手机号 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *mobile;
 
-/** 洲ID，中国默认为亚洲（1） */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *continentId;
-
-/** 国家ID，按照国家电话区号，如中国为86 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *countryId;
-
-/** 省ID，按 city.json 基础数据定义 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *provinceId;
-
-/** 市ID，按 city.json 基础数据定义 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *cityId;
-
-/** 区/县ID */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *districtId;
-
-/** 名称 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *locationName;
-
-/** 是否热门 */
-@property(nonatomic, readwrite) BOOL hot;
+/** 验证码类型 */
+@property(nonatomic, readwrite) uint32_t validCodeType;
 
 @end
 
-#pragma mark - PBUserFeedback
+#pragma mark - PBUserLoginData
 
-typedef GPB_ENUM(PBUserFeedback_FieldNumber) {
-  PBUserFeedback_FieldNumber_FeedbackId = 1,
-  PBUserFeedback_FieldNumber_Content = 2,
-  PBUserFeedback_FieldNumber_CreateDate = 3,
-  PBUserFeedback_FieldNumber_DeviceType = 4,
-  PBUserFeedback_FieldNumber_AppVersion = 5,
-  PBUserFeedback_FieldNumber_User = 6,
-  PBUserFeedback_FieldNumber_Remark = 7,
-  PBUserFeedback_FieldNumber_Status = 9,
-};
-
-@interface PBUserFeedback : GPBMessage
-
-/** 反馈id */
-@property(nonatomic, readwrite) uint32_t feedbackId;
-
-/** 用户反馈内容 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *content;
-
-/** 反馈日期 */
-@property(nonatomic, readwrite) uint64_t createDate;
-
-/** 提交反馈设备类型 */
-@property(nonatomic, readwrite) PBDeviceType deviceType;
-
-/** app版本 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *appVersion;
-
-/** 反馈用户 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *user;
-
-/** 管理员处理的备注 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *remark;
-
-/** 反馈状态 */
-@property(nonatomic, readwrite) PBFeedbackStatus status;
-
-@end
-
-/**
- * Fetches the raw value of a @c PBUserFeedback's @c deviceType property, even
- * if the value was not defined by the enum at the time the code was generated.
- **/
-int32_t PBUserFeedback_DeviceType_RawValue(PBUserFeedback *message);
-/**
- * Sets the raw value of an @c PBUserFeedback's @c deviceType property, allowing
- * it to be set to a value that was not defined by the enum at the time the code
- * was generated.
- **/
-void SetPBUserFeedback_DeviceType_RawValue(PBUserFeedback *message, int32_t value);
-
-/**
- * Fetches the raw value of a @c PBUserFeedback's @c status property, even
- * if the value was not defined by the enum at the time the code was generated.
- **/
-int32_t PBUserFeedback_Status_RawValue(PBUserFeedback *message);
-/**
- * Sets the raw value of an @c PBUserFeedback's @c status property, allowing
- * it to be set to a value that was not defined by the enum at the time the code
- * was generated.
- **/
-void SetPBUserFeedback_Status_RawValue(PBUserFeedback *message, int32_t value);
-
-#pragma mark - PBUserFeedbackList
-
-typedef GPB_ENUM(PBUserFeedbackList_FieldNumber) {
-  PBUserFeedbackList_FieldNumber_FeedBacksArray = 1,
-  PBUserFeedbackList_FieldNumber_PageInfo = 2,
-};
-
-@interface PBUserFeedbackList : GPBMessage
-
-/** 反馈列表 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PBUserFeedback*> *feedBacksArray;
-/** The number of items in @c feedBacksArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger feedBacksArray_Count;
-
-/** 分页信息 */
-@property(nonatomic, readwrite, strong, null_resettable) PBPageInfo *pageInfo;
-/** Test to see if @c pageInfo has been set. */
-@property(nonatomic, readwrite) BOOL hasPageInfo;
-
-@end
-
-#pragma mark - PBGetUserFeedBackListReq
-
-typedef GPB_ENUM(PBGetUserFeedBackListReq_FieldNumber) {
-  PBGetUserFeedBackListReq_FieldNumber_BeginDate = 1,
-  PBGetUserFeedBackListReq_FieldNumber_EndDate = 2,
-  PBGetUserFeedBackListReq_FieldNumber_Keyword = 3,
-  PBGetUserFeedBackListReq_FieldNumber_Page = 8,
-};
-
-@interface PBGetUserFeedBackListReq : GPBMessage
-
-/** 开始日期， */
-@property(nonatomic, readwrite) uint64_t beginDate;
-
-/** 结束日期 */
-@property(nonatomic, readwrite) uint64_t endDate;
-
-/** 内容关键字 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *keyword;
-
-/** 分页信息 */
-@property(nonatomic, readwrite, strong, null_resettable) PBPagePara *page;
-/** Test to see if @c page has been set. */
-@property(nonatomic, readwrite) BOOL hasPage;
-
-@end
-
-#pragma mark - PBDevice
-
-typedef GPB_ENUM(PBDevice_FieldNumber) {
-  PBDevice_FieldNumber_DeviceOs = 8,
-  PBDevice_FieldNumber_DeviceModel = 9,
-  PBDevice_FieldNumber_DeviceId = 10,
-};
-
-@interface PBDevice : GPBMessage
-
-/** 设备操作系统 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *deviceOs;
-
-/** 设备模型 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *deviceModel;
-
-/** 设备ID */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *deviceId;
-
-@end
-
-#pragma mark - PBLocationQueryReq
-
-typedef GPB_ENUM(PBLocationQueryReq_FieldNumber) {
-  PBLocationQueryReq_FieldNumber_HigherId = 1,
-  PBLocationQueryReq_FieldNumber_LocationName = 2,
+typedef GPB_ENUM(PBUserLoginData_FieldNumber) {
+  PBUserLoginData_FieldNumber_UserId = 1,
+  PBUserLoginData_FieldNumber_UserName = 2,
+  PBUserLoginData_FieldNumber_LastLoginDevice = 3,
+  PBUserLoginData_FieldNumber_LastLoginClientIp = 4,
+  PBUserLoginData_FieldNumber_LastLoginLocation = 5,
+  PBUserLoginData_FieldNumber_LastLoginDate = 6,
 };
 
 /**
- * Location请求
+ * 用户的登录信息
  **/
-@interface PBLocationQueryReq : GPBMessage
+@interface PBUserLoginData : GPBMessage
 
-/** 上一级的编号 如市的上一级省 区的上一级市 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *higherId;
+/** 用户 ID，不同业务系统的用户 ID 可能有不同类型，此处统一转成 string */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *userId;
 
-/** 名称匹配 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *locationName;
+/** 用户昵称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *userName;
 
-@end
+/** 最近登录的设备信息 */
+@property(nonatomic, readwrite, strong, null_resettable) PBDevice *lastLoginDevice;
+/** Test to see if @c lastLoginDevice has been set. */
+@property(nonatomic, readwrite) BOOL hasLastLoginDevice;
 
-#pragma mark - PBLocationList
+/** 最近登录的 IP */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *lastLoginClientIp;
 
-typedef GPB_ENUM(PBLocationList_FieldNumber) {
-  PBLocationList_FieldNumber_LocationsArray = 1,
-  PBLocationList_FieldNumber_PageInfo = 2,
-};
+/** 最近登录的地点（通过 IP 获得） */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *lastLoginLocation;
 
-/**
- * 位置数据列表
- **/
-@interface PBLocationList : GPBMessage
-
-/** 列表 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PBLocation*> *locationsArray;
-/** The number of items in @c locationsArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger locationsArray_Count;
-
-/** 分页信息 */
-@property(nonatomic, readwrite, strong, null_resettable) PBPageInfo *pageInfo;
-/** Test to see if @c pageInfo has been set. */
-@property(nonatomic, readwrite) BOOL hasPageInfo;
-
-@end
-
-#pragma mark - PBLocationData
-
-typedef GPB_ENUM(PBLocationData_FieldNumber) {
-  PBLocationData_FieldNumber_LocationsArray = 1,
-  PBLocationData_FieldNumber_ModifyTime = 2,
-};
-
-/**
- * 位置数据
- **/
-@interface PBLocationData : GPBMessage
-
-/** 位置信息列表 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<PBLocation*> *locationsArray;
-/** The number of items in @c locationsArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger locationsArray_Count;
-
-/** 位置数据更新时间 */
-@property(nonatomic, readwrite) uint64_t modifyTime;
-
-@end
-
-#pragma mark - PBLocationDetectReq
-
-typedef GPB_ENUM(PBLocationDetectReq_FieldNumber) {
-  PBLocationDetectReq_FieldNumber_Longitude = 1,
-  PBLocationDetectReq_FieldNumber_Latitude = 2,
-};
-
-/**
- * 根据经纬度查询位置
- **/
-@interface PBLocationDetectReq : GPBMessage
-
-@property(nonatomic, readwrite) float longitude;
-
-@property(nonatomic, readwrite) float latitude;
+/** 最近登录的时间 */
+@property(nonatomic, readwrite) uint64_t lastLoginDate;
 
 @end
 

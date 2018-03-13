@@ -97,11 +97,12 @@ typedef GPB_ENUM(PBAdmin_FieldNumber) {
 
 typedef GPB_ENUM(PBAdminLog_FieldNumber) {
   PBAdminLog_FieldNumber_Id_p = 1,
-  PBAdminLog_FieldNumber_Admin = 2,
+  PBAdminLog_FieldNumber_AdminId = 2,
   PBAdminLog_FieldNumber_AdminName = 3,
   PBAdminLog_FieldNumber_Event = 4,
   PBAdminLog_FieldNumber_Description_p = 5,
   PBAdminLog_FieldNumber_CreateDate = 6,
+  PBAdminLog_FieldNumber_MessageType = 7,
 };
 
 @interface PBAdminLog : GPBMessage
@@ -109,10 +110,8 @@ typedef GPB_ENUM(PBAdminLog_FieldNumber) {
 /** ID */
 @property(nonatomic, readwrite) uint64_t id_p;
 
-/** admin */
-@property(nonatomic, readwrite, strong, null_resettable) PBAdmin *admin;
-/** Test to see if @c admin has been set. */
-@property(nonatomic, readwrite) BOOL hasAdmin;
+/** adminId */
+@property(nonatomic, readwrite) uint32_t adminId;
 
 /** 管理员名字 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *adminName;
@@ -125,6 +124,9 @@ typedef GPB_ENUM(PBAdminLog_FieldNumber) {
 
 /** 操作日期 */
 @property(nonatomic, readwrite) uint64_t createDate;
+
+/** 消息类型 */
+@property(nonatomic, readwrite) uint32_t messageType;
 
 @end
 
@@ -234,7 +236,7 @@ typedef GPB_ENUM(PBGetAdminLogListReq_FieldNumber) {
 
 typedef GPB_ENUM(PBAdminLogList_FieldNumber) {
   PBAdminLogList_FieldNumber_LogsArray = 1,
-  PBAdminLogList_FieldNumber_Page = 2,
+  PBAdminLogList_FieldNumber_PageInfo = 2,
 };
 
 @interface PBAdminLogList : GPBMessage
@@ -245,9 +247,9 @@ typedef GPB_ENUM(PBAdminLogList_FieldNumber) {
 @property(nonatomic, readonly) NSUInteger logsArray_Count;
 
 /** 分页信息 */
-@property(nonatomic, readwrite, strong, null_resettable) PBPageInfo *page;
-/** Test to see if @c page has been set. */
-@property(nonatomic, readwrite) BOOL hasPage;
+@property(nonatomic, readwrite, strong, null_resettable) PBPageInfo *pageInfo;
+/** Test to see if @c pageInfo has been set. */
+@property(nonatomic, readwrite) BOOL hasPageInfo;
 
 @end
 

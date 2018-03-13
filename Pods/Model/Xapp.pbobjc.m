@@ -92,6 +92,7 @@ BOOL PBTransactionStatus_IsValidValue(int32_t value__) {
 @dynamic email;
 @dynamic birthDate;
 @dynamic gender;
+@dynamic currentAssets;
 @dynamic lastLoginIp;
 @dynamic lastLoginTime;
 
@@ -106,6 +107,7 @@ typedef struct PBUser__storage_ {
   NSString *lastLoginIp;
   uint64_t birthDate;
   uint64_t lastLoginTime;
+  uint64_t currentAssets;
 } PBUser__storage_;
 
 // This method is threadsafe because it is initially called
@@ -190,7 +192,7 @@ typedef struct PBUser__storage_ {
         .name = "lastLoginIp",
         .dataTypeSpecific.className = NULL,
         .number = PBUser_FieldNumber_LastLoginIp,
-        .hasIndex = 9,
+        .hasIndex = 10,
         .offset = (uint32_t)offsetof(PBUser__storage_, lastLoginIp),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
@@ -199,8 +201,17 @@ typedef struct PBUser__storage_ {
         .name = "lastLoginTime",
         .dataTypeSpecific.className = NULL,
         .number = PBUser_FieldNumber_LastLoginTime,
-        .hasIndex = 10,
+        .hasIndex = 11,
         .offset = (uint32_t)offsetof(PBUser__storage_, lastLoginTime),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeUInt64,
+      },
+      {
+        .name = "currentAssets",
+        .dataTypeSpecific.className = NULL,
+        .number = PBUser_FieldNumber_CurrentAssets,
+        .hasIndex = 9,
+        .offset = (uint32_t)offsetof(PBUser__storage_, currentAssets),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeUInt64,
       },
@@ -215,7 +226,7 @@ typedef struct PBUser__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\002\t\013\000\n\r\000";
+        "\003\t\013\000\n\r\000Z\r\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
@@ -320,6 +331,7 @@ typedef struct PBPortfolio__storage_ {
 @dynamic status;
 @dynamic startDate;
 @dynamic finishDate;
+@dynamic finishPrice;
 
 typedef struct PBTransaction__storage_ {
   uint32_t _has_storage_[1];
@@ -332,6 +344,7 @@ typedef struct PBTransaction__storage_ {
   uint64_t unit;
   uint64_t startDate;
   uint64_t finishDate;
+  uint64_t finishPrice;
 } PBTransaction__storage_;
 
 // This method is threadsafe because it is initially called
@@ -421,6 +434,15 @@ typedef struct PBTransaction__storage_ {
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeUInt64,
       },
+      {
+        .name = "finishPrice",
+        .dataTypeSpecific.className = NULL,
+        .number = PBTransaction_FieldNumber_FinishPrice,
+        .hasIndex = 9,
+        .offset = (uint32_t)offsetof(PBTransaction__storage_, finishPrice),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeUInt64,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[PBTransaction class]
@@ -432,7 +454,7 @@ typedef struct PBTransaction__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\004\004\014\000\005\016\000\010\t\000\t\n\000";
+        "\005\004\014\000\005\016\000\010\t\000\t\n\000\n\013\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

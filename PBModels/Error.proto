@@ -8,10 +8,9 @@ option objc_class_prefix = "";
 package framework;
 
 enum PBError {
-
     SUCCESS = 0;                                // 成功
 
-    // ------ 系统错误 ------
+    // 系统错误
     READ_POST_DATA = 10001;                     // 系统请求失败，读取POST请求数据失败
     PARSE_POST_DATA = 10002;                    // 系统请求失败，解析POST数据出错
     NO_SERVICE_FOR_TYPE = 10003;                // 系统请求失败，该接口未实现
@@ -30,27 +29,39 @@ enum PBError {
     OPERATION_NOT_SUPPORT = 10019;              // 操作不支持
     DATA_EMPTY_EXCEPTION = 10020;               // 提交数据空异常
 
-    // ------ 用户 ------
+    // 用户
     USER_MOBILE_EXISTS = 11002;                 // 该手机号已被注册
-    INCORRECT_PASSWORD = 11005;                 // 用户名或密码错误
+    USER_INCORRECT_PASSWORD = 11005;            // 用户名或密码错误
+    USER_NOT_LOGIN_YET = 11006;                 // 用户尚未登录，accessToken 为空时
+    USER_ACCESS_TOKEN_EXPIRED = 11007;          // 长时间未使用 App，accessToken 已过期
+    USER_ACCESS_TOKEN_INVALID = 11008;          // 异地登录，accessToken 校验失败，返回此错误码，此时消息体的内容为 PBUserLoginData
 
-    // ----- 系统参数配置 -----
+    // 系统参数配置
     KEY_EXISTS = 15000;                         // key已经存在
     KEY_NOT_EXISTS = 15001;                     // key不存在
     VALUE_CAN_NOT_BE_MODIFIED = 15002;          // 配置不能被修改
 
-    // ----- 管理员 -----
+    // 管理员
     ADMIN_NOT_FOUND = 16001;                    // 管理员不存在
     ADMIN_EXIST = 16002;                        // 管理员已存在
 
-    // ----- 用户反馈 -----
+    // 用户反馈
     FEEDBACK_NOT_EXISTS = 18001;                // 用户反馈不存在
 
-    //验证码
+    // 验证码
     SEND_VALID_CODE_ERROR = 19000;              // 发送验证码出错
-    SEND_VALID_CODE_TYPE_INCORRECT = 19001;   // 发送验证码类型不正确
+    SEND_VALID_CODE_TYPE_INCORRECT = 19001;     // 发送验证码类型不正确
 
-    //LOCATION
+    // LOCATION
     LOCATION_NOT_FOUND = 19500;                 //地区找不到
-
+    LOCATION_GET_REMOTE_ADCODE_FAILURE = 19501; //远程调用高德api获取adcode失败
+    LOCATION_GET_SERVER_VERSION_FAILURE = 19502;//获取服务器location版本失败
+    LOCATION_GET_ALL_FAILURE = 19503;           //redis 获取所有location数据失败
+    LOCATION_ADCODE_NOT_DIGITS = 19504;         //地区行政编码不是数字
+    LOCATION_CITY_NAME_NOT_FOUND = 19505;       //城市名未找到
+    LOCATION_CITY_IS_HOT = 19506;               //城市已经是热门城市
+    LOCATION_CITY_IS_NOT_HOT = 19507;           //城市已经不是热门城市
+    LOCATION_CITY_IS_OVER_LIMIT = 19508;        //热门城市数量超过限制
+    LOCATION_DETECT_NOT_FOUND = 19509;          //未找到对应定位城市
+    LOCATION_GET_LNG_LAT_FAILURE = 19510;       //获取经纬度失败
 }

@@ -88,6 +88,7 @@ typedef GPB_ENUM(PBUser_FieldNumber) {
   PBUser_FieldNumber_Gender = 8,
   PBUser_FieldNumber_LastLoginIp = 9,
   PBUser_FieldNumber_LastLoginTime = 10,
+  PBUser_FieldNumber_CurrentAssets = 90,
 };
 
 /**
@@ -118,6 +119,9 @@ typedef GPB_ENUM(PBUser_FieldNumber) {
 
 /** 性别 男true 女false 未知null */
 @property(nonatomic, readwrite) BOOL gender;
+
+/** 资产总额, 人民币, 分 */
+@property(nonatomic, readwrite) uint64_t currentAssets;
 
 /** 最后登录ip */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *lastLoginIp;
@@ -167,6 +171,7 @@ typedef GPB_ENUM(PBTransaction_FieldNumber) {
   PBTransaction_FieldNumber_Status = 7,
   PBTransaction_FieldNumber_StartDate = 8,
   PBTransaction_FieldNumber_FinishDate = 9,
+  PBTransaction_FieldNumber_FinishPrice = 10,
 };
 
 /**
@@ -204,6 +209,9 @@ typedef GPB_ENUM(PBTransaction_FieldNumber) {
 
 /** 投资结束时间（结束后写入） timestamp */
 @property(nonatomic, readwrite) uint64_t finishDate;
+
+/** 投资结束单价, 人民币, 分 */
+@property(nonatomic, readwrite) uint64_t finishPrice;
 
 @end
 

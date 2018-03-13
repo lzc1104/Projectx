@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
 
 
   s.name         = "Model"
-  s.version      = "0.0.58"
+  s.version      = "0.0.60"
   s.summary      = "This a Protos of protobuf generates files"
   s.ios.deployment_target = "8.0"
   s.homepage     = "http://cn.bing.com"

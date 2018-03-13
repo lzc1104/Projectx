@@ -14,7 +14,7 @@
 #endif
 
  #import "Config.pbobjc.h"
- #import "CommonModel.pbobjc.h"
+ #import "Location.pbobjc.h"
 // @@protoc_insertion_point(imports)
 
 #pragma clang diagnostic push
@@ -43,6 +43,40 @@ static GPBFileDescriptor *ConfigRoot_FileDescriptor(void) {
   return descriptor;
 }
 
+#pragma mark - Enum PBSmsProvider
+
+GPBEnumDescriptor *PBSmsProvider_EnumDescriptor(void) {
+  static GPBEnumDescriptor *descriptor = NULL;
+  if (!descriptor) {
+    static const char *valueNames =
+        "Ihuyi\000Jianzhou\000";
+    static const int32_t values[] = {
+        PBSmsProvider_Ihuyi,
+        PBSmsProvider_Jianzhou,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PBSmsProvider)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PBSmsProvider_IsValidValue];
+    if (!OSAtomicCompareAndSwapPtrBarrier(nil, worker, (void * volatile *)&descriptor)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PBSmsProvider_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PBSmsProvider_Ihuyi:
+    case PBSmsProvider_Jianzhou:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
 #pragma mark - PBBasicConfig
 
 @implementation PBBasicConfig
@@ -51,11 +85,13 @@ static GPBFileDescriptor *ConfigRoot_FileDescriptor(void) {
 @dynamic androidSplash;
 @dynamic hasIosVersion, iosVersion;
 @dynamic hasAndroidVersion, androidVersion;
+@dynamic copyright;
 @dynamic hasShareConfig, shareConfig;
 @dynamic hasURLConfig, URLConfig;
-@dynamic hasWechatConfig, wechatConfig;
-@dynamic hasDefaultQiniuHost, defaultQiniuHost;
-@dynamic bussinessConfig;
+@dynamic hasSocialConfig, socialConfig;
+@dynamic qiniuHostTokensArray, qiniuHostTokensArray_Count;
+@dynamic HTTPDnsAccount;
+@dynamic businessConfig;
 
 typedef struct PBBasicConfig__storage_ {
   uint32_t _has_storage_[1];
@@ -63,11 +99,13 @@ typedef struct PBBasicConfig__storage_ {
   NSString *androidSplash;
   PBIOSVersion *iosVersion;
   PBAndroidVersion *androidVersion;
+  NSString *copyright;
   PBShareConfig *shareConfig;
   PBDynamicURLConfig *URLConfig;
-  PBWeChatConfig *wechatConfig;
-  PBQiniuTokenHost *defaultQiniuHost;
-  NSData *bussinessConfig;
+  PBSocialAppConfig *socialConfig;
+  NSMutableArray *qiniuHostTokensArray;
+  NSString *HTTPDnsAccount;
+  NSData *businessConfig;
 } PBBasicConfig__storage_;
 
 // This method is threadsafe because it is initially called
@@ -113,10 +151,19 @@ typedef struct PBBasicConfig__storage_ {
         .dataType = GPBDataTypeMessage,
       },
       {
+        .name = "copyright",
+        .dataTypeSpecific.className = NULL,
+        .number = PBBasicConfig_FieldNumber_Copyright,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PBBasicConfig__storage_, copyright),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
         .name = "shareConfig",
         .dataTypeSpecific.className = GPBStringifySymbol(PBShareConfig),
         .number = PBBasicConfig_FieldNumber_ShareConfig,
-        .hasIndex = 4,
+        .hasIndex = 5,
         .offset = (uint32_t)offsetof(PBBasicConfig__storage_, shareConfig),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeMessage,
@@ -125,35 +172,44 @@ typedef struct PBBasicConfig__storage_ {
         .name = "URLConfig",
         .dataTypeSpecific.className = GPBStringifySymbol(PBDynamicURLConfig),
         .number = PBBasicConfig_FieldNumber_URLConfig,
-        .hasIndex = 5,
+        .hasIndex = 6,
         .offset = (uint32_t)offsetof(PBBasicConfig__storage_, URLConfig),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeMessage,
       },
       {
-        .name = "wechatConfig",
-        .dataTypeSpecific.className = GPBStringifySymbol(PBWeChatConfig),
-        .number = PBBasicConfig_FieldNumber_WechatConfig,
-        .hasIndex = 6,
-        .offset = (uint32_t)offsetof(PBBasicConfig__storage_, wechatConfig),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeMessage,
-      },
-      {
-        .name = "defaultQiniuHost",
-        .dataTypeSpecific.className = GPBStringifySymbol(PBQiniuTokenHost),
-        .number = PBBasicConfig_FieldNumber_DefaultQiniuHost,
+        .name = "socialConfig",
+        .dataTypeSpecific.className = GPBStringifySymbol(PBSocialAppConfig),
+        .number = PBBasicConfig_FieldNumber_SocialConfig,
         .hasIndex = 7,
-        .offset = (uint32_t)offsetof(PBBasicConfig__storage_, defaultQiniuHost),
+        .offset = (uint32_t)offsetof(PBBasicConfig__storage_, socialConfig),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeMessage,
       },
       {
-        .name = "bussinessConfig",
+        .name = "qiniuHostTokensArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(PBQiniuTokenHost),
+        .number = PBBasicConfig_FieldNumber_QiniuHostTokensArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PBBasicConfig__storage_, qiniuHostTokensArray),
+        .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "HTTPDnsAccount",
         .dataTypeSpecific.className = NULL,
-        .number = PBBasicConfig_FieldNumber_BussinessConfig,
+        .number = PBBasicConfig_FieldNumber_HTTPDnsAccount,
         .hasIndex = 8,
-        .offset = (uint32_t)offsetof(PBBasicConfig__storage_, bussinessConfig),
+        .offset = (uint32_t)offsetof(PBBasicConfig__storage_, HTTPDnsAccount),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "businessConfig",
+        .dataTypeSpecific.className = NULL,
+        .number = PBBasicConfig_FieldNumber_BusinessConfig,
+        .hasIndex = 9,
+        .offset = (uint32_t)offsetof(PBBasicConfig__storage_, businessConfig),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeBytes,
       },
@@ -168,7 +224,8 @@ typedef struct PBBasicConfig__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\t\001\t\000\002\r\000\003\n\000\004\016\000\n\013\000\013!!\'\000\014\014\000\r\020\000\024\017\000";
+        "\n\001\t\000\002\r\000\003\n\000\004\016\000\n\013\000\013!!\'\000\014\014\000\r\000qiniuHostToken"
+        "s\000\016!!!+\000\036\016\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
@@ -184,14 +241,16 @@ typedef struct PBBasicConfig__storage_ {
 @implementation PBDynamicURLConfig
 
 @dynamic officialWebsite;
-@dynamic wechatPublicAccount;
 @dynamic userAgreementURL;
+@dynamic weexServerURL;
+@dynamic officialMobileWebsite;
 
 typedef struct PBDynamicURLConfig__storage_ {
   uint32_t _has_storage_[1];
   NSString *officialWebsite;
-  NSString *wechatPublicAccount;
   NSString *userAgreementURL;
+  NSString *weexServerURL;
+  NSString *officialMobileWebsite;
 } PBDynamicURLConfig__storage_;
 
 // This method is threadsafe because it is initially called
@@ -210,20 +269,29 @@ typedef struct PBDynamicURLConfig__storage_ {
         .dataType = GPBDataTypeString,
       },
       {
-        .name = "wechatPublicAccount",
+        .name = "userAgreementURL",
         .dataTypeSpecific.className = NULL,
-        .number = PBDynamicURLConfig_FieldNumber_WechatPublicAccount,
+        .number = PBDynamicURLConfig_FieldNumber_UserAgreementURL,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PBDynamicURLConfig__storage_, wechatPublicAccount),
+        .offset = (uint32_t)offsetof(PBDynamicURLConfig__storage_, userAgreementURL),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
       {
-        .name = "userAgreementURL",
+        .name = "weexServerURL",
         .dataTypeSpecific.className = NULL,
-        .number = PBDynamicURLConfig_FieldNumber_UserAgreementURL,
+        .number = PBDynamicURLConfig_FieldNumber_WeexServerURL,
         .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PBDynamicURLConfig__storage_, userAgreementURL),
+        .offset = (uint32_t)offsetof(PBDynamicURLConfig__storage_, weexServerURL),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "officialMobileWebsite",
+        .dataTypeSpecific.className = NULL,
+        .number = PBDynamicURLConfig_FieldNumber_OfficialMobileWebsite,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PBDynamicURLConfig__storage_, officialMobileWebsite),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
@@ -238,7 +306,7 @@ typedef struct PBDynamicURLConfig__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\003\001\017\000\002\023\000\003\016!!\000";
+        "\004\001\017\000\002\016!!\000\003\013!!\000\004\025\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
@@ -249,26 +317,26 @@ typedef struct PBDynamicURLConfig__storage_ {
 
 @end
 
-#pragma mark - PBWeChatConfig
+#pragma mark - PBSocialAppConfig
 
-@implementation PBWeChatConfig
+@implementation PBSocialAppConfig
 
 @dynamic wechatAppKey;
 @dynamic wechatAppSecret;
-@dynamic hasWechatShareConfig, wechatShareConfig;
+@dynamic wechatPublicAccount;
 @dynamic qqAppKey;
 @dynamic qqAppSecret;
-@dynamic hasQqShareConfig, qqShareConfig;
+@dynamic qqGroupNumber;
 
-typedef struct PBWeChatConfig__storage_ {
+typedef struct PBSocialAppConfig__storage_ {
   uint32_t _has_storage_[1];
   NSString *wechatAppKey;
   NSString *wechatAppSecret;
-  PBShareConfig *wechatShareConfig;
+  NSString *wechatPublicAccount;
   NSString *qqAppKey;
   NSString *qqAppSecret;
-  PBShareConfig *qqShareConfig;
-} PBWeChatConfig__storage_;
+  NSString *qqGroupNumber;
+} PBSocialAppConfig__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -279,69 +347,69 @@ typedef struct PBWeChatConfig__storage_ {
       {
         .name = "wechatAppKey",
         .dataTypeSpecific.className = NULL,
-        .number = PBWeChatConfig_FieldNumber_WechatAppKey,
+        .number = PBSocialAppConfig_FieldNumber_WechatAppKey,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PBWeChatConfig__storage_, wechatAppKey),
+        .offset = (uint32_t)offsetof(PBSocialAppConfig__storage_, wechatAppKey),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
       {
         .name = "wechatAppSecret",
         .dataTypeSpecific.className = NULL,
-        .number = PBWeChatConfig_FieldNumber_WechatAppSecret,
+        .number = PBSocialAppConfig_FieldNumber_WechatAppSecret,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PBWeChatConfig__storage_, wechatAppSecret),
+        .offset = (uint32_t)offsetof(PBSocialAppConfig__storage_, wechatAppSecret),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
       {
-        .name = "wechatShareConfig",
-        .dataTypeSpecific.className = GPBStringifySymbol(PBShareConfig),
-        .number = PBWeChatConfig_FieldNumber_WechatShareConfig,
+        .name = "wechatPublicAccount",
+        .dataTypeSpecific.className = NULL,
+        .number = PBSocialAppConfig_FieldNumber_WechatPublicAccount,
         .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PBWeChatConfig__storage_, wechatShareConfig),
+        .offset = (uint32_t)offsetof(PBSocialAppConfig__storage_, wechatPublicAccount),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeMessage,
+        .dataType = GPBDataTypeString,
       },
       {
         .name = "qqAppKey",
         .dataTypeSpecific.className = NULL,
-        .number = PBWeChatConfig_FieldNumber_QqAppKey,
+        .number = PBSocialAppConfig_FieldNumber_QqAppKey,
         .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PBWeChatConfig__storage_, qqAppKey),
+        .offset = (uint32_t)offsetof(PBSocialAppConfig__storage_, qqAppKey),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
       {
         .name = "qqAppSecret",
         .dataTypeSpecific.className = NULL,
-        .number = PBWeChatConfig_FieldNumber_QqAppSecret,
+        .number = PBSocialAppConfig_FieldNumber_QqAppSecret,
         .hasIndex = 4,
-        .offset = (uint32_t)offsetof(PBWeChatConfig__storage_, qqAppSecret),
+        .offset = (uint32_t)offsetof(PBSocialAppConfig__storage_, qqAppSecret),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
       {
-        .name = "qqShareConfig",
-        .dataTypeSpecific.className = GPBStringifySymbol(PBShareConfig),
-        .number = PBWeChatConfig_FieldNumber_QqShareConfig,
+        .name = "qqGroupNumber",
+        .dataTypeSpecific.className = NULL,
+        .number = PBSocialAppConfig_FieldNumber_QqGroupNumber,
         .hasIndex = 5,
-        .offset = (uint32_t)offsetof(PBWeChatConfig__storage_, qqShareConfig),
+        .offset = (uint32_t)offsetof(PBSocialAppConfig__storage_, qqGroupNumber),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeMessage,
+        .dataType = GPBDataTypeString,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PBWeChatConfig class]
+        [GPBDescriptor allocDescriptorForClass:[PBSocialAppConfig class]
                                      rootClass:[ConfigRoot class]
                                           file:ConfigRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PBWeChatConfig__storage_)
+                                   storageSize:sizeof(PBSocialAppConfig__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\006\001\014\000\002\017\000\003\021\000\013\010\000\014\013\000\r\r\000";
+        "\006\001\014\000\002\017\000\003\023\000\013\010\000\014\013\000\r\r\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
@@ -358,9 +426,11 @@ typedef struct PBWeChatConfig__storage_ {
 
 @dynamic token;
 @dynamic host;
+@dynamic tag;
 
 typedef struct PBQiniuTokenHost__storage_ {
   uint32_t _has_storage_[1];
+  uint32_t tag;
   NSString *token;
   NSString *host;
 } PBQiniuTokenHost__storage_;
@@ -388,6 +458,15 @@ typedef struct PBQiniuTokenHost__storage_ {
         .offset = (uint32_t)offsetof(PBQiniuTokenHost__storage_, host),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "tag",
+        .dataTypeSpecific.className = NULL,
+        .number = PBQiniuTokenHost_FieldNumber_Tag,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PBQiniuTokenHost__storage_, tag),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeUInt32,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -494,7 +573,7 @@ typedef struct PBShareConfig__storage_ {
 @dynamic reviewVersion;
 @dynamic latestVersion;
 @dynamic URL;
-@dynamic forceUpdateVersionsArray, forceUpdateVersionsArray_Count;
+@dynamic forceVersionsArray, forceVersionsArray_Count;
 @dynamic title;
 @dynamic contentsArray, contentsArray_Count;
 
@@ -503,7 +582,7 @@ typedef struct PBIOSVersion__storage_ {
   NSString *reviewVersion;
   NSString *latestVersion;
   NSString *URL;
-  NSMutableArray *forceUpdateVersionsArray;
+  NSMutableArray *forceVersionsArray;
   NSString *title;
   NSMutableArray *contentsArray;
 } PBIOSVersion__storage_;
@@ -542,11 +621,11 @@ typedef struct PBIOSVersion__storage_ {
         .dataType = GPBDataTypeString,
       },
       {
-        .name = "forceUpdateVersionsArray",
+        .name = "forceVersionsArray",
         .dataTypeSpecific.className = NULL,
-        .number = PBIOSVersion_FieldNumber_ForceUpdateVersionsArray,
+        .number = PBIOSVersion_FieldNumber_ForceVersionsArray,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(PBIOSVersion__storage_, forceUpdateVersionsArray),
+        .offset = (uint32_t)offsetof(PBIOSVersion__storage_, forceVersionsArray),
         .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
@@ -579,7 +658,121 @@ typedef struct PBIOSVersion__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\004\001\r\000\002\r\000\003!!!\000\004\000forceUpdateVersions\000";
+        "\004\001\r\000\002\r\000\003!!!\000\004\000forceVersions\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PBAndroidVersion
+
+@implementation PBAndroidVersion
+
+@dynamic versionCode;
+@dynamic versionName;
+@dynamic URL;
+@dynamic md5;
+@dynamic title;
+@dynamic contentsArray, contentsArray_Count;
+@dynamic forceVersionsArray, forceVersionsArray_Count;
+
+typedef struct PBAndroidVersion__storage_ {
+  uint32_t _has_storage_[1];
+  uint32_t versionCode;
+  NSString *versionName;
+  NSString *URL;
+  NSString *md5;
+  NSString *title;
+  NSMutableArray *contentsArray;
+  NSMutableArray *forceVersionsArray;
+} PBAndroidVersion__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "versionCode",
+        .dataTypeSpecific.className = NULL,
+        .number = PBAndroidVersion_FieldNumber_VersionCode,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PBAndroidVersion__storage_, versionCode),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeUInt32,
+      },
+      {
+        .name = "versionName",
+        .dataTypeSpecific.className = NULL,
+        .number = PBAndroidVersion_FieldNumber_VersionName,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PBAndroidVersion__storage_, versionName),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "URL",
+        .dataTypeSpecific.className = NULL,
+        .number = PBAndroidVersion_FieldNumber_URL,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PBAndroidVersion__storage_, URL),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "md5",
+        .dataTypeSpecific.className = NULL,
+        .number = PBAndroidVersion_FieldNumber_Md5,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PBAndroidVersion__storage_, md5),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "title",
+        .dataTypeSpecific.className = NULL,
+        .number = PBAndroidVersion_FieldNumber_Title,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PBAndroidVersion__storage_, title),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "contentsArray",
+        .dataTypeSpecific.className = NULL,
+        .number = PBAndroidVersion_FieldNumber_ContentsArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PBAndroidVersion__storage_, contentsArray),
+        .flags = GPBFieldRepeated,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "forceVersionsArray",
+        .dataTypeSpecific.className = NULL,
+        .number = PBAndroidVersion_FieldNumber_ForceVersionsArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(PBAndroidVersion__storage_, forceVersionsArray),
+        .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PBAndroidVersion class]
+                                     rootClass:[ConfigRoot class]
+                                          file:ConfigRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PBAndroidVersion__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\004\001\013\000\002\013\000\003!!!\000\007\000forceVersions\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
@@ -639,120 +832,6 @@ typedef struct PBLocationConfig__storage_ {
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
         "\001\001\000hotCities\000";
-    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
-#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PBAndroidVersion
-
-@implementation PBAndroidVersion
-
-@dynamic versionCode;
-@dynamic versionName;
-@dynamic URL;
-@dynamic md5;
-@dynamic forceUpdateVersionCodesArray, forceUpdateVersionCodesArray_Count;
-@dynamic title;
-@dynamic contentsArray, contentsArray_Count;
-
-typedef struct PBAndroidVersion__storage_ {
-  uint32_t _has_storage_[1];
-  uint32_t versionCode;
-  NSString *versionName;
-  NSString *URL;
-  NSString *md5;
-  GPBUInt32Array *forceUpdateVersionCodesArray;
-  NSString *title;
-  NSMutableArray *contentsArray;
-} PBAndroidVersion__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "versionCode",
-        .dataTypeSpecific.className = NULL,
-        .number = PBAndroidVersion_FieldNumber_VersionCode,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PBAndroidVersion__storage_, versionCode),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeUInt32,
-      },
-      {
-        .name = "versionName",
-        .dataTypeSpecific.className = NULL,
-        .number = PBAndroidVersion_FieldNumber_VersionName,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PBAndroidVersion__storage_, versionName),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "URL",
-        .dataTypeSpecific.className = NULL,
-        .number = PBAndroidVersion_FieldNumber_URL,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PBAndroidVersion__storage_, URL),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "md5",
-        .dataTypeSpecific.className = NULL,
-        .number = PBAndroidVersion_FieldNumber_Md5,
-        .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PBAndroidVersion__storage_, md5),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "forceUpdateVersionCodesArray",
-        .dataTypeSpecific.className = NULL,
-        .number = PBAndroidVersion_FieldNumber_ForceUpdateVersionCodesArray,
-        .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(PBAndroidVersion__storage_, forceUpdateVersionCodesArray),
-        .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldPacked | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeUInt32,
-      },
-      {
-        .name = "title",
-        .dataTypeSpecific.className = NULL,
-        .number = PBAndroidVersion_FieldNumber_Title,
-        .hasIndex = 4,
-        .offset = (uint32_t)offsetof(PBAndroidVersion__storage_, title),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "contentsArray",
-        .dataTypeSpecific.className = NULL,
-        .number = PBAndroidVersion_FieldNumber_ContentsArray,
-        .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(PBAndroidVersion__storage_, contentsArray),
-        .flags = GPBFieldRepeated,
-        .dataType = GPBDataTypeString,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PBAndroidVersion class]
-                                     rootClass:[ConfigRoot class]
-                                          file:ConfigRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PBAndroidVersion__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
-    static const char *extraTextFormatInfo =
-        "\004\001\013\000\002\013\000\003!!!\000\005\000forceUpdateVersionCodes\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

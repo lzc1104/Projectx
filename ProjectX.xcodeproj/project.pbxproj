@@ -23,6 +23,10 @@
 		AFB708E71F978E9900EBF785 /* XNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB708E61F978E9900EBF785 /* XNetworkService.swift */; };
 		AFB708E91F97928200EBF785 /* NetworkExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB708E81F97928200EBF785 /* NetworkExtension.swift */; };
 		AFB708EE1F97936800EBF785 /* BussinessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB708ED1F97936800EBF785 /* BussinessService.swift */; };
+		AFB708F11F979AAE00EBF785 /* XUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB708F01F979AAE00EBF785 /* XUtils.swift */; };
+		AFB708F41F979B0000EBF785 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB708F31F979B0000EBF785 /* Color.swift */; };
+		AFB708F71F979DEE00EBF785 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB708F61F979DEE00EBF785 /* UserManager.swift */; };
+		AFB708FB1F99E38A00EBF785 /* MyTransactionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB708FA1F99E38A00EBF785 /* MyTransactionController.swift */; };
 		F33B28F4FDD23B62848690B4 /* Pods_ProjectX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB9601E0AC212AE6ABD98C3F /* Pods_ProjectX.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +51,10 @@
 		AFB708E61F978E9900EBF785 /* XNetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XNetworkService.swift; sourceTree = "<group>"; };
 		AFB708E81F97928200EBF785 /* NetworkExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkExtension.swift; sourceTree = "<group>"; };
 		AFB708ED1F97936800EBF785 /* BussinessService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BussinessService.swift; sourceTree = "<group>"; };
+		AFB708F01F979AAE00EBF785 /* XUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XUtils.swift; sourceTree = "<group>"; };
+		AFB708F31F979B0000EBF785 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		AFB708F61F979DEE00EBF785 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		AFB708FA1F99E38A00EBF785 /* MyTransactionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTransactionController.swift; sourceTree = "<group>"; };
 		C16557E27E7ACA49292E9F7D /* Pods-ProjectX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectX.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ProjectX/Pods-ProjectX.debug.xcconfig"; sourceTree = "<group>"; };
 		CB9601E0AC212AE6ABD98C3F /* Pods_ProjectX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ProjectX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D20DCB21657F08841975159D /* Pods-ProjectX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectX.release.xcconfig"; path = "Pods/Target Support Files/Pods-ProjectX/Pods-ProjectX.release.xcconfig"; sourceTree = "<group>"; };
@@ -102,12 +110,14 @@
 		AF2F88E31F9390C700CCEE50 /* ProjectX */ = {
 			isa = PBXGroup;
 			children = (
+				AFB708F51F979DD400EBF785 /* DAO */,
 				AFB708E51F978E7B00EBF785 /* Network */,
 				AF2F88F81F9390FF00CCEE50 /* PropertyCombo */,
 				AF2F88F71F9390FC00CCEE50 /* MyInfo */,
 				AF2F88F61F9390DD00CCEE50 /* Sign */,
 				AF2F88E41F9390C700CCEE50 /* AppDelegate.swift */,
 				AF2F88E61F9390C700CCEE50 /* ViewController.swift */,
+				AFB708EF1F979A9D00EBF785 /* Utils */,
 				AF2F88E81F9390C700CCEE50 /* Main.storyboard */,
 				AF2F88EB1F9390C700CCEE50 /* Assets.xcassets */,
 				AF2F88ED1F9390C700CCEE50 /* LaunchScreen.storyboard */,
@@ -213,6 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				AF2F89061F93A4BD00CCEE50 /* MyPropertyController.swift */,
+				AFB708FA1F99E38A00EBF785 /* MyTransactionController.swift */,
 				AF2F89081F93A4D200CCEE50 /* PropertyComboController.swift */,
 				AF2F890A1F93A4ED00CCEE50 /* AboutUsController.swift */,
 			);
@@ -227,6 +238,23 @@
 				AFB708E81F97928200EBF785 /* NetworkExtension.swift */,
 			);
 			name = Network;
+			sourceTree = "<group>";
+		};
+		AFB708EF1F979A9D00EBF785 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				AFB708F01F979AAE00EBF785 /* XUtils.swift */,
+				AFB708F31F979B0000EBF785 /* Color.swift */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		AFB708F51F979DD400EBF785 /* DAO */ = {
+			isa = PBXGroup;
+			children = (
+				AFB708F61F979DEE00EBF785 /* UserManager.swift */,
+			);
+			name = DAO;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,7 +294,7 @@
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = MJKEV94P6L;
 						LastSwiftMigration = 0830;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -356,13 +384,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				AF2F89071F93A4BE00CCEE50 /* MyPropertyController.swift in Sources */,
+				AFB708F11F979AAE00EBF785 /* XUtils.swift in Sources */,
 				AF2F890B1F93A4ED00CCEE50 /* AboutUsController.swift in Sources */,
+				AFB708F71F979DEE00EBF785 /* UserManager.swift in Sources */,
 				AF2F890F1F93A53C00CCEE50 /* UnSigninController.swift in Sources */,
 				AF2F88E71F9390C700CCEE50 /* ViewController.swift in Sources */,
 				AF2F89031F93916D00CCEE50 /* SigninController.swift in Sources */,
 				AFB708EE1F97936800EBF785 /* BussinessService.swift in Sources */,
+				AFB708FB1F99E38A00EBF785 /* MyTransactionController.swift in Sources */,
 				AFB708E91F97928200EBF785 /* NetworkExtension.swift in Sources */,
 				AFB708E71F978E9900EBF785 /* XNetworkService.swift in Sources */,
+				AFB708F41F979B0000EBF785 /* Color.swift in Sources */,
 				AF2F89091F93A4D200CCEE50 /* PropertyComboController.swift in Sources */,
 				AFB708E41F978E2E00EBF785 /* FuckBridge.m in Sources */,
 				AF2F890D1F93A50D00CCEE50 /* EditPasswordController.swift in Sources */,
@@ -491,12 +523,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = MJKEV94P6L;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ProjectX/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "-24.ProjectX";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jtht.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "3f9803a2-23e8-42cf-ba3a-d9cb7ab1ad65";
+				PROVISIONING_PROFILE_SPECIFIER = jtht_release;
 				SWIFT_OBJC_BRIDGING_HEADER = "ProjectX/ProjectX-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -509,12 +545,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = MJKEV94P6L;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ProjectX/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "-24.ProjectX";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jtht.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "b8d7bef3-10e6-412a-9396-e059c6d6f507";
+				PROVISIONING_PROFILE_SPECIFIER = jtht_adhoc;
 				SWIFT_OBJC_BRIDGING_HEADER = "ProjectX/ProjectX-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};

@@ -9,11 +9,55 @@
 import UIKit
 import RxSwift
 import HuayingRequest
+import CommonLib
 
 enum Result<T > {
     case success(T)
     case failure(Error)
 }
+
+
+protocol RequestBase {
+    
+    var messageType: UInt32 { set get }
+    
+}
+
+protocol ApiRequest: RequestBase {
+    associatedtype Request: GPBMessage
+    associatedtype Response: GPBMessage
+    init(request: Request , type: UInt32)
+    
+}
+
+struct XApiRequest<T: GPBMessage,U: GPBMessage>: ApiRequest {
+    
+    var messageType: UInt32
+    typealias Response = U
+    typealias Request = T
+    var request: T
+    
+    init(request: T, type: UInt32) {
+        self.request = request
+        self.messageType = type
+    }
+    
+    func requestApi() -> Observable<Result<Response>> {
+        guard let type = PBXMessageType(rawValue: Int32(self.messageType)) else {
+            fatalError()
+        }
+        return XNetworkService.shared.pbRequest(messageType: type, pbmessage: request)
+    }
+}
+
+extension XApiRequest {
+    init(request: T, type: PBXMessageType) {
+        self.request = request
+        self.messageType = UInt32(type.rawValue)
+        
+    }
+}
+
 
 
 class BussinessService: XNetworkService {
@@ -90,18 +134,27 @@ extension Observable {
     
     func justToastNext(_ text : String) -> Observable<E> {
         return self.do(onNext: { (_) in
-//            POSTMSG(text)
+            Toast(text)
         })
     }
     
     func toastError() -> Observable<E> {
         return self.do(onError: { (error) in
-//            POSTMSG(error.localizeDescriptionStr())
+            Toast(error.localizeDescriptionStr())
             print(error)
         })
     }
     
     func catchErrorJustReturnEmpty() -> Observable<E> {
         return self.catchError({ _ in return Observable.empty() })
+    }
+}
+
+extension Error {
+    func localizeDescriptionStr() -> String {
+        let errro = self as NSError
+        let text = errro.userInfo[NSLocalizedDescriptionKey] as? String ?? ""
+        return text
+        
     }
 }

@@ -8,10 +8,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Signin Controller-->
+        <!--登录-->
         <scene sceneID="OBa-ai-13W">
             <objects>
-                <viewController storyboardIdentifier="SigninController" id="AYr-nj-sV5" customClass="SigninController" customModule="ProjectX" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SigninController" title="登录" id="AYr-nj-sV5" customClass="SigninController" customModule="ProjectX" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Rhk-4d-3K8"/>
                         <viewControllerLayoutGuide type="bottom" id="mxG-o0-Dau"/>
@@ -77,14 +77,23 @@
                                     </view>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e1E-kA-9yx">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e1E-kA-9yx">
                                 <rect key="frame" x="18" y="125" width="339" height="44"/>
-                                <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="t6W-Xg-aZq"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <state key="normal" title="确认"/>
+                                <state key="normal" title="确认">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="normalBackgrondColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="mborderRadius">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.94901960784313721" green="0.96078431372549022" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -97,16 +106,22 @@
                             <constraint firstAttribute="trailing" secondItem="iJ0-FO-xrY" secondAttribute="trailing" id="rH2-dW-hZc"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="VVc-eF-RgH"/>
                     <nil key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="codeField" destination="fFM-09-qkC" id="SZ3-7Z-cCa"/>
+                        <outlet property="confirm" destination="e1E-kA-9yx" id="cvl-SU-7RF"/>
+                        <outlet property="passwordField" destination="mm1-ON-21K" id="DDt-4R-war"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PFl-lN-aDP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-108" y="207"/>
+            <point key="canvasLocation" x="1679.2" y="755.17241379310349"/>
         </scene>
-        <!--Edit Password Controller-->
+        <!--修改密码-->
         <scene sceneID="Wgx-Pm-O2z">
             <objects>
-                <viewController storyboardIdentifier="EditPasswordController" id="OgG-Jh-0zQ" customClass="EditPasswordController" customModule="ProjectX" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EditPasswordController" title="修改密码" id="OgG-Jh-0zQ" customClass="EditPasswordController" customModule="ProjectX" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="lfD-YE-1JY"/>
                         <viewControllerLayoutGuide type="bottom" id="XJi-Ac-my7"/>
@@ -229,14 +244,23 @@
                                     <constraint firstItem="W9m-LS-Vcg" firstAttribute="width" secondItem="Hnr-4c-p5L" secondAttribute="width" id="zlq-DS-ofy"/>
                                 </constraints>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pC4-Z6-OGH">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pC4-Z6-OGH">
                                 <rect key="frame" x="18" y="227" width="339" height="44"/>
-                                <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="UN3-OT-7vg"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <state key="normal" title="确认"/>
+                                <state key="normal" title="确认">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="normalBackgrondColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="mborderRadius">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.94901960780000005" green="0.96078431369999995" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -250,15 +274,22 @@
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="codeField" destination="sFR-3t-Cep" id="ghd-NG-Wcm"/>
+                        <outlet property="confirm" destination="pC4-Z6-OGH" id="F5U-le-1jX"/>
+                        <outlet property="confirmNewpasswordField" destination="yzU-uw-y2w" id="DLh-In-nc1"/>
+                        <outlet property="newPasswordField" destination="kDg-rG-gIX" id="f8n-dg-VCk"/>
+                        <outlet property="oldPasswordField" destination="acl-bT-qGq" id="Vpv-mI-LZZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="77x-xa-HeJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="554" y="206"/>
+            <point key="canvasLocation" x="1991.2" y="118.29085457271366"/>
         </scene>
-        <!--View Controller-->
+        <!--Un Signin Controller-->
         <scene sceneID="2nu-hw-kS3">
             <objects>
-                <viewController id="lYM-9e-NQc" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="UnSigninController" id="lYM-9e-NQc" customClass="UnSigninController" customModule="ProjectX" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="cfB-JO-JiF"/>
                         <viewControllerLayoutGuide type="bottom" id="b9m-aG-m70"/>
@@ -315,13 +346,13 @@
                                                 <color key="textColor" red="0.94901960780000005" green="0.96078431369999995" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EMAIL:XXXX@EXAMPLE.COM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IHf-kM-qLB">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EMAIL:XXXX@GMAIL.COM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IHf-kM-qLB">
                                                 <rect key="frame" x="0.0" y="78" width="305" height="16"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <color key="textColor" red="0.94901960780000005" green="0.96078431369999995" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TEL:+8613333333333" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SgT-4a-1bM">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TEL:+8613885395325" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SgT-4a-1bM">
                                                 <rect key="frame" x="0.0" y="104" width="305" height="16"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <color key="textColor" red="0.94901960780000005" green="0.96078431369999995" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -358,10 +389,15 @@
                             <constraint firstItem="cvR-TZ-yQj" firstAttribute="leading" secondItem="0wR-XL-ZEk" secondAttribute="leading" constant="10" id="cr7-KG-2Eo"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="dtw-H8-K8S"/>
+                    <connections>
+                        <outlet property="closeButton" destination="Yhu-b0-Xtk" id="PNW-Wn-IIn"/>
+                        <outlet property="signInButton" destination="30F-Oc-pSn" id="Sgq-HU-bUw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DIi-yd-13l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1300" y="205.54722638680661"/>
+            <point key="canvasLocation" x="912.79999999999995" y="704.79760119940033"/>
         </scene>
     </scenes>
     <resources>

@@ -8,9 +8,35 @@ option objc_class_prefix = "";
 package framework;
 
 enum PBDeviceType {
-    DEVICE_ANDROID = 0;                 //安卓
-    DEVICE_IOS = 1;                     //苹果
-    DEVICE_PC = 2;                      //PC
+    DEVICE_ANDROID = 0;                     // 安卓
+    DEVICE_IOS = 1;                         // 苹果
+    DEVICE_PC = 2;                          // PC
+}
+
+message PBDeviceScreenSize {
+    int32 width = 1;                        // 屏幕宽度
+    int32 height = 2;                       // 屏幕高度
+}
+
+message PBDevice {
+    string deviceOs = 1;                    // 设备操作系统
+    string deviceModel = 2;                 // 设备模型
+    string deviceId = 3;                    // 设备ID
+    PBDeviceType deviceType = 4;            // 设备类型，参考PBDeviceType
+    PBDeviceScreenSize screenSize = 5;      // 设备屏幕尺寸
+}
+
+// 网络类型
+enum PBNetworkType {
+    NET_UNKNOWN = 0;                        // 未知网络
+    NET_WIFI = 1;                           // WIFI
+    NET_2G = 2;                             // 2G网络
+    NET_3G = 3;                             // 3G网络
+    NET_4G = 4;                             // 4G网络
+}
+
+message PBNetwork {
+    PBNetworkType type = 1;                 // 网络类型
 }
 
 enum PBPaymentChannel {
@@ -19,10 +45,16 @@ enum PBPaymentChannel {
     PAY_APPSTORE_IAP = 2;                   // 苹果商店 IAP
 }
 
+enum PBSex {
+    SEX_NONE = 0;                           // 未填
+    SEX_MALE = 1;                           // 男
+    SEX_FEMALE = 2;                         // 女
+}
+
 // 分页参数
 message PBPagePara {
-    uint32 offset = 1;                      //偏移量
-    uint32 limit = 2;                       //限制数
+    uint32 offset = 1;                      // 偏移量
+    uint32 limit = 2;                       // 限制数
 }
 
 // 分页信息
@@ -34,22 +66,22 @@ message PBPageInfo {
 }
 
 message PBIntValue {
-    uint32 value = 1;               //值
+    uint32 value = 1;
 }
 
 message PBLongValue {
-    uint64 value = 1;               //值
+    uint64 value = 1;
 }
 
 message PBStrValue {
-    string value = 1;               //值
+    string value = 1;
 }
 
 // 用于表示可为空的 bool 值，因为 proto3 的 bool 不可为空
 enum PBBoolValue {
-    BOOL_NONE = 0;          //空
-    BOOL_TRUE = 1;          //true
-    BOOL_FALSE = 2;         //false
+    BOOL_NONE = 0;                          // 空
+    BOOL_TRUE = 1;                          // true
+    BOOL_FALSE = 2;                         // false
 }
 
 // 键值对对象
@@ -63,89 +95,18 @@ message PBKeyValueList {
     repeated PBKeyValue kv = 1;
 }
 
-// 地区数据
-message PBLocation {
-    uint32 locationId = 1;                  // 地区ID（唯一编号）
-    bool oversea = 2;                       // 是否国外（海外）
-    string continentId = 3;                 // 洲ID，中国默认为亚洲（1）
-    string countryId = 4;                   // 国家ID，按照国家电话区号，如中国为86
-    string provinceId = 5;                  // 省ID，按 city.json 基础数据定义
-    string cityId = 6;                      // 市ID，按 city.json 基础数据定义
-    string districtId = 7;                  //区/县ID
-    string locationName = 8;                // 名称
-    bool hot = 9;                           // 是否热门
-
+message PBValidCodeReq {
+    string mobileCode = 1;                  // 国际电话区号，默认为 86，可选
+    string mobile = 2;                      // 手机号
+    uint32 validCodeType = 3;               // 验证码类型
 }
 
-// 网络类型
-enum PBNetwork {
-    NET_WIFI = 0;                           // wifi
-    NET_MOBILE = 1;                         // 移动
-    NET_TELECOM = 2;                        // 电信
-    NET_UNICOM = 3;                         // 联通
-}
-
-enum PBFeedbackStatus {
-    FEEDBACK_PENDING = 0;                            // 待处理
-    FEEDBACK_PROCESSED = 1;                          // 已处理
-}
-
-message PBUserFeedback {
-    uint32 feedbackId = 1;                  //反馈id
-    string content = 2;                     // 用户反馈内容
-    uint64 createDate = 3;                  // 反馈日期
-    PBDeviceType deviceType = 4;             // 提交反馈设备类型
-    string appVersion = 5;                  // app版本
-    string user = 6;                        // 反馈用户
-    string remark = 7;                      // 管理员处理的备注
-    PBFeedbackStatus status = 9;             // 反馈状态
-}
-
-message PBUserFeedbackList {
-    repeated PBUserFeedback feedBacks = 1;      // 反馈列表
-    PBPageInfo pageInfo = 2;                     // 分页信息
-}
-
-message PBGetUserFeedBackListReq {
-    uint64 beginDate = 1;                   //开始日期，
-    uint64 endDate = 2;                     //结束日期
-    string keyword = 3;                     //内容关键字
-
-    PBPagePara page = 8;                    //分页信息
-}
-
-message PBDevice {
-    string deviceOs = 8;                       // 设备操作系统
-    string deviceModel = 9;                    // 设备模型
-    string deviceId = 10;                      // 设备ID
-}
-
-enum PBSex {
-    SEX_NONE = 0;                       //未填
-    SEX_MALE = 1;                       //男
-    SEX_FEMALE = 2;                     //女
-}
-
-// Location请求
-message PBLocationQueryReq {
-    string higherId = 1;                                        //上一级的编号 如市的上一级省 区的上一级市
-    string locationName = 2;                                    //名称匹配
-}
-
-// 位置数据列表
-message PBLocationList {
-    repeated framework.PBLocation locations = 1;                //列表
-    framework.PBPageInfo pageInfo = 2;                           // 分页信息
-}
-
-// 位置数据
-message PBLocationData{
-    repeated framework.PBLocation locations = 1;                // 位置信息列表
-    uint64 modifyTime = 2;                                      // 位置数据更新时间
-}
-
-// 根据经纬度查询位置
-message PBLocationDetectReq{
-    float longitude = 1;
-    float latitude = 2;
+// 用户的登录信息
+message PBUserLoginData {
+    string userId = 1;                      // 用户 ID，不同业务系统的用户 ID 可能有不同类型，此处统一转成 string
+    string userName = 2;                    // 用户昵称
+    PBDevice lastLoginDevice = 3;           // 最近登录的设备信息
+    string lastLoginClientIp = 4;           // 最近登录的 IP
+    string lastLoginLocation = 5;           // 最近登录的地点（通过 IP 获得）
+    uint64 lastLoginDate = 6;               // 最近登录的时间
 }

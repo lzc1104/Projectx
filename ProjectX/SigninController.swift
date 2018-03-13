@@ -7,133 +7,84 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
-class SigninController: UIViewController {
+class SigninController: UIViewController,StoryLoadable {
 
+    //MARK: lift cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self._initialSubViews()
+        self._layoutConstraints()
         // Do any additional setup after loading the view.
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.showNavigationBar()
     }
     
-
-   
-
-}
-
-protocol StoryLoadable : class {
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
     
-}
-
-extension StoryLoadable where Self : UIViewController {
-    static func instantIntializeController(storyBoardName: String? = nil) -> Self! {
+    //MARK: -Private Layout
+    private func _initialSubViews() {
         
-        guard let storyboard = storyBoardName else {
-            let name = NSStringFromClass(self.self)
-            // exclude module name
-            let names = name.characters.split(separator: ".")
-            let seq = names.last!.map({ $0 })
-            let readName = String.init(seq)
-            return UIStoryboard.init(name: readName, bundle: nil).instantiateViewController(withIdentifier: name) as! Self
-        }
-        let name = NSStringFromClass(self.self)
-        // exclude module name
-        let names = name.characters.split(separator: ".")
-        let seq = names.last!.map({ $0 })
-        let readName = String.init(seq)
-        return UIStoryboard.init(name: storyboard, bundle: nil).instantiateViewController(withIdentifier: readName) as! Self
+        self.navigationItem.title = "登录"
+        
+        let wrap = Observable.combineLatest(self.codeField.rx.text.orEmpty,
+                                            self.passwordField.rx.text.orEmpty, resultSelector: { ($0,$1) }).shareReplayLatestWhileConnected()
+        
+        wrap.map({ !$0.0.isEmpty && !$0.1.isEmpty  })
+            .bind(to: self.confirm.rx.isEnabled)
+            .disposed(by: self.bag)
+        
+        
+        confirm.rx.tap.asObservable()
+            .withLatestFrom(wrap)
+            .map(PBUser.with)
+            .loading()
+            .flatMapLatest({ (user) in
+                return XApiRequest<PBUser,PBUser>(
+                    request: user,
+                    type: PBXMessageType.userLogin
+                ).requestApi()
+                
+            })
+            .hideLoading()
+            .flatMapLatest {
+                $0.asObservable()
+                    .toastError()
+                    .catchErrorJustReturnEmpty()
+            }
+            .subscribe(onNext: UserManager.shared.userLogin)
+            .disposed(by: self.bag)
+    }
+    
+    private func _layoutConstraints() {
         
     }
+    
+    deinit {
+        DebugLog("\(self) deinit")
+    }
+    
+    var service: BussinessService = BussinessService()
+    var bag : DisposeBag = DisposeBag()
+    
+    @IBOutlet weak var confirm: UIButton!
+    @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet weak var codeField: UITextField!
 }
 
-extension UIView {
-    
-    @IBInspectable var mborderColor : UIColor {
-        get {
-            return self.layer.borderColor != nil ? UIColor(cgColor: self.layer.borderColor!) : UIColor.clear
-        }
-        set {
-            self.layer.borderColor = newValue.cgColor
-        }
-    }
-    
-    @IBInspectable var mborderWidth : CGFloat {
-        get {
-            return self.layer.borderWidth
-        }
-        set {
-            self.layer.borderWidth = newValue
-        }
-    }
-    
-    @IBInspectable var mborderRadius : CGFloat {
-        get {
-            return self.layer.cornerRadius
-        }
-        set {
-            self.layer.cornerRadius = newValue
-            self.layer.masksToBounds = true
-        }
-    }
-    
-    
-}
-
-
-extension UIButton {
-    @IBInspectable var selectedBackgrondColor : UIColor {
-        get {
-            return self.backgroundColor ?? .clear
-        }
-        set {
-            self.setBackgroundImage(newValue.image(), for: .selected)
-        }
-    }
-    
-    @IBInspectable var normalBackgrondColor : UIColor {
-        get {
-            return self.backgroundColor ?? .clear
-        }
-        set {
-            self.setBackgroundImage(newValue.image(), for: .normal)
-        }
-    }
-    
-    @IBInspectable var highlightedBackgrondColor : UIColor {
-        get {
-            return self.backgroundColor ?? .clear
-        }
-        set {
-            self.setBackgroundImage(newValue.image(), for: .highlighted)
-        }
-    }
-    
-    @IBInspectable var disabledBackgrondColor : UIColor {
-        get {
-            return self.backgroundColor ?? .clear
-        }
-        set {
-            self.setBackgroundImage(newValue.image(), for: .disabled)
-        }
-    }
-}
-
-extension UIColor {
-    func image() -> UIImage? {
-        UIGraphicsBeginImageContext(CGSize(width:1, height:1));
-        let context = UIGraphicsGetCurrentContext();
-        context?.setFillColor(self.cgColor)
-        context?.fill(CGRect(x: 0, y: 0, width: 1, height: 1))
-        
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext();
-        
-        return image
+extension PBUser {
+    class func with(carno: String , password: String) -> PBUser {
+        let user = PBUser()
+        user.cardno = carno
+        user.password = password
+        return user
     }
 }
 

@@ -78,6 +78,48 @@ BOOL PBDeviceType_IsValidValue(int32_t value__) {
   }
 }
 
+#pragma mark - Enum PBNetworkType
+
+GPBEnumDescriptor *PBNetworkType_EnumDescriptor(void) {
+  static GPBEnumDescriptor *descriptor = NULL;
+  if (!descriptor) {
+    static const char *valueNames =
+        "NetUnknown\000NetWifi\000Net2G\000Net3G\000Net4G\000";
+    static const int32_t values[] = {
+        PBNetworkType_NetUnknown,
+        PBNetworkType_NetWifi,
+        PBNetworkType_Net2G,
+        PBNetworkType_Net3G,
+        PBNetworkType_Net4G,
+    };
+    static const char *extraTextFormatInfo = "\003\002c\202\000\003c\202\000\004c\202\000";
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PBNetworkType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PBNetworkType_IsValidValue
+                              extraTextFormatInfo:extraTextFormatInfo];
+    if (!OSAtomicCompareAndSwapPtrBarrier(nil, worker, (void * volatile *)&descriptor)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PBNetworkType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PBNetworkType_NetUnknown:
+    case PBNetworkType_NetWifi:
+    case PBNetworkType_Net2G:
+    case PBNetworkType_Net3G:
+    case PBNetworkType_Net4G:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
 #pragma mark - Enum PBPaymentChannel
 
 GPBEnumDescriptor *PBPaymentChannel_EnumDescriptor(void) {
@@ -108,6 +150,42 @@ BOOL PBPaymentChannel_IsValidValue(int32_t value__) {
     case PBPaymentChannel_PayAli:
     case PBPaymentChannel_PayWechat:
     case PBPaymentChannel_PayAppstoreIap:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
+#pragma mark - Enum PBSex
+
+GPBEnumDescriptor *PBSex_EnumDescriptor(void) {
+  static GPBEnumDescriptor *descriptor = NULL;
+  if (!descriptor) {
+    static const char *valueNames =
+        "SexNone\000SexMale\000SexFemale\000";
+    static const int32_t values[] = {
+        PBSex_SexNone,
+        PBSex_SexMale,
+        PBSex_SexFemale,
+    };
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PBSex)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:PBSex_IsValidValue];
+    if (!OSAtomicCompareAndSwapPtrBarrier(nil, worker, (void * volatile *)&descriptor)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL PBSex_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case PBSex_SexNone:
+    case PBSex_SexMale:
+    case PBSex_SexFemale:
       return YES;
     default:
       return NO;
@@ -150,112 +228,217 @@ BOOL PBBoolValue_IsValidValue(int32_t value__) {
   }
 }
 
-#pragma mark - Enum PBNetwork
+#pragma mark - PBDeviceScreenSize
 
-GPBEnumDescriptor *PBNetwork_EnumDescriptor(void) {
-  static GPBEnumDescriptor *descriptor = NULL;
+@implementation PBDeviceScreenSize
+
+@dynamic width;
+@dynamic height;
+
+typedef struct PBDeviceScreenSize__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t width;
+  int32_t height;
+} PBDeviceScreenSize__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
   if (!descriptor) {
-    static const char *valueNames =
-        "NetWifi\000NetMobile\000NetTelecom\000NetUnicom\000";
-    static const int32_t values[] = {
-        PBNetwork_NetWifi,
-        PBNetwork_NetMobile,
-        PBNetwork_NetTelecom,
-        PBNetwork_NetUnicom,
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "width",
+        .dataTypeSpecific.className = NULL,
+        .number = PBDeviceScreenSize_FieldNumber_Width,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PBDeviceScreenSize__storage_, width),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "height",
+        .dataTypeSpecific.className = NULL,
+        .number = PBDeviceScreenSize_FieldNumber_Height,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PBDeviceScreenSize__storage_, height),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
     };
-    GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PBNetwork)
-                                       valueNames:valueNames
-                                           values:values
-                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PBNetwork_IsValidValue];
-    if (!OSAtomicCompareAndSwapPtrBarrier(nil, worker, (void * volatile *)&descriptor)) {
-      [worker release];
-    }
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PBDeviceScreenSize class]
+                                     rootClass:[CommonModelRoot class]
+                                          file:CommonModelRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PBDeviceScreenSize__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
   }
   return descriptor;
 }
 
-BOOL PBNetwork_IsValidValue(int32_t value__) {
-  switch (value__) {
-    case PBNetwork_NetWifi:
-    case PBNetwork_NetMobile:
-    case PBNetwork_NetTelecom:
-    case PBNetwork_NetUnicom:
-      return YES;
-    default:
-      return NO;
-  }
-}
+@end
 
-#pragma mark - Enum PBFeedbackStatus
+#pragma mark - PBDevice
 
-GPBEnumDescriptor *PBFeedbackStatus_EnumDescriptor(void) {
-  static GPBEnumDescriptor *descriptor = NULL;
+@implementation PBDevice
+
+@dynamic deviceOs;
+@dynamic deviceModel;
+@dynamic deviceId;
+@dynamic deviceType;
+@dynamic hasScreenSize, screenSize;
+
+typedef struct PBDevice__storage_ {
+  uint32_t _has_storage_[1];
+  PBDeviceType deviceType;
+  NSString *deviceOs;
+  NSString *deviceModel;
+  NSString *deviceId;
+  PBDeviceScreenSize *screenSize;
+} PBDevice__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
   if (!descriptor) {
-    static const char *valueNames =
-        "FeedbackPending\000FeedbackProcessed\000";
-    static const int32_t values[] = {
-        PBFeedbackStatus_FeedbackPending,
-        PBFeedbackStatus_FeedbackProcessed,
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "deviceOs",
+        .dataTypeSpecific.className = NULL,
+        .number = PBDevice_FieldNumber_DeviceOs,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PBDevice__storage_, deviceOs),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "deviceModel",
+        .dataTypeSpecific.className = NULL,
+        .number = PBDevice_FieldNumber_DeviceModel,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PBDevice__storage_, deviceModel),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "deviceId",
+        .dataTypeSpecific.className = NULL,
+        .number = PBDevice_FieldNumber_DeviceId,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PBDevice__storage_, deviceId),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "deviceType",
+        .dataTypeSpecific.enumDescFunc = PBDeviceType_EnumDescriptor,
+        .number = PBDevice_FieldNumber_DeviceType,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PBDevice__storage_, deviceType),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
+        .name = "screenSize",
+        .dataTypeSpecific.className = GPBStringifySymbol(PBDeviceScreenSize),
+        .number = PBDevice_FieldNumber_ScreenSize,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(PBDevice__storage_, screenSize),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeMessage,
+      },
     };
-    GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PBFeedbackStatus)
-                                       valueNames:valueNames
-                                           values:values
-                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PBFeedbackStatus_IsValidValue];
-    if (!OSAtomicCompareAndSwapPtrBarrier(nil, worker, (void * volatile *)&descriptor)) {
-      [worker release];
-    }
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PBDevice class]
+                                     rootClass:[CommonModelRoot class]
+                                          file:CommonModelRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PBDevice__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\005\001\010\000\002\013\000\003\010\000\004\n\000\005\n\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
   }
   return descriptor;
 }
 
-BOOL PBFeedbackStatus_IsValidValue(int32_t value__) {
-  switch (value__) {
-    case PBFeedbackStatus_FeedbackPending:
-    case PBFeedbackStatus_FeedbackProcessed:
-      return YES;
-    default:
-      return NO;
-  }
+@end
+
+int32_t PBDevice_DeviceType_RawValue(PBDevice *message) {
+  GPBDescriptor *descriptor = [PBDevice descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PBDevice_FieldNumber_DeviceType];
+  return GPBGetMessageInt32Field(message, field);
 }
 
-#pragma mark - Enum PBSex
+void SetPBDevice_DeviceType_RawValue(PBDevice *message, int32_t value) {
+  GPBDescriptor *descriptor = [PBDevice descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PBDevice_FieldNumber_DeviceType];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
 
-GPBEnumDescriptor *PBSex_EnumDescriptor(void) {
-  static GPBEnumDescriptor *descriptor = NULL;
+#pragma mark - PBNetwork
+
+@implementation PBNetwork
+
+@dynamic type;
+
+typedef struct PBNetwork__storage_ {
+  uint32_t _has_storage_[1];
+  PBNetworkType type;
+} PBNetwork__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
   if (!descriptor) {
-    static const char *valueNames =
-        "SexNone\000SexMale\000SexFemale\000";
-    static const int32_t values[] = {
-        PBSex_SexNone,
-        PBSex_SexMale,
-        PBSex_SexFemale,
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "type",
+        .dataTypeSpecific.enumDescFunc = PBNetworkType_EnumDescriptor,
+        .number = PBNetwork_FieldNumber_Type,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PBNetwork__storage_, type),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
     };
-    GPBEnumDescriptor *worker =
-        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PBSex)
-                                       valueNames:valueNames
-                                           values:values
-                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
-                                     enumVerifier:PBSex_IsValidValue];
-    if (!OSAtomicCompareAndSwapPtrBarrier(nil, worker, (void * volatile *)&descriptor)) {
-      [worker release];
-    }
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PBNetwork class]
+                                     rootClass:[CommonModelRoot class]
+                                          file:CommonModelRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PBNetwork__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
   }
   return descriptor;
 }
 
-BOOL PBSex_IsValidValue(int32_t value__) {
-  switch (value__) {
-    case PBSex_SexNone:
-    case PBSex_SexMale:
-    case PBSex_SexFemale:
-      return YES;
-    default:
-      return NO;
-  }
+@end
+
+int32_t PBNetwork_Type_RawValue(PBNetwork *message) {
+  GPBDescriptor *descriptor = [PBNetwork descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PBNetwork_FieldNumber_Type];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetPBNetwork_Type_RawValue(PBNetwork *message, int32_t value) {
+  GPBDescriptor *descriptor = [PBNetwork descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PBNetwork_FieldNumber_Type];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 
 #pragma mark - PBPagePara
@@ -619,30 +802,20 @@ typedef struct PBKeyValueList__storage_ {
 
 @end
 
-#pragma mark - PBLocation
+#pragma mark - PBValidCodeReq
 
-@implementation PBLocation
+@implementation PBValidCodeReq
 
-@dynamic locationId;
-@dynamic oversea;
-@dynamic continentId;
-@dynamic countryId;
-@dynamic provinceId;
-@dynamic cityId;
-@dynamic districtId;
-@dynamic locationName;
-@dynamic hot;
+@dynamic mobileCode;
+@dynamic mobile;
+@dynamic validCodeType;
 
-typedef struct PBLocation__storage_ {
+typedef struct PBValidCodeReq__storage_ {
   uint32_t _has_storage_[1];
-  uint32_t locationId;
-  NSString *continentId;
-  NSString *countryId;
-  NSString *provinceId;
-  NSString *cityId;
-  NSString *districtId;
-  NSString *locationName;
-} PBLocation__storage_;
+  uint32_t validCodeType;
+  NSString *mobileCode;
+  NSString *mobile;
+} PBValidCodeReq__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -651,690 +824,149 @@ typedef struct PBLocation__storage_ {
   if (!descriptor) {
     static GPBMessageFieldDescription fields[] = {
       {
-        .name = "locationId",
+        .name = "mobileCode",
         .dataTypeSpecific.className = NULL,
-        .number = PBLocation_FieldNumber_LocationId,
+        .number = PBValidCodeReq_FieldNumber_MobileCode,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PBLocation__storage_, locationId),
+        .offset = (uint32_t)offsetof(PBValidCodeReq__storage_, mobileCode),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "mobile",
+        .dataTypeSpecific.className = NULL,
+        .number = PBValidCodeReq_FieldNumber_Mobile,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PBValidCodeReq__storage_, mobile),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "validCodeType",
+        .dataTypeSpecific.className = NULL,
+        .number = PBValidCodeReq_FieldNumber_ValidCodeType,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PBValidCodeReq__storage_, validCodeType),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeUInt32,
       },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[PBValidCodeReq class]
+                                     rootClass:[CommonModelRoot class]
+                                          file:CommonModelRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(PBValidCodeReq__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\002\001\n\000\003\r\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - PBUserLoginData
+
+@implementation PBUserLoginData
+
+@dynamic userId;
+@dynamic userName;
+@dynamic hasLastLoginDevice, lastLoginDevice;
+@dynamic lastLoginClientIp;
+@dynamic lastLoginLocation;
+@dynamic lastLoginDate;
+
+typedef struct PBUserLoginData__storage_ {
+  uint32_t _has_storage_[1];
+  NSString *userId;
+  NSString *userName;
+  PBDevice *lastLoginDevice;
+  NSString *lastLoginClientIp;
+  NSString *lastLoginLocation;
+  uint64_t lastLoginDate;
+} PBUserLoginData__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
       {
-        .name = "oversea",
+        .name = "userId",
         .dataTypeSpecific.className = NULL,
-        .number = PBLocation_FieldNumber_Oversea,
-        .hasIndex = 1,
-        .offset = 2,  // Stored in _has_storage_ to save space.
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeBool,
-      },
-      {
-        .name = "continentId",
-        .dataTypeSpecific.className = NULL,
-        .number = PBLocation_FieldNumber_ContinentId,
-        .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PBLocation__storage_, continentId),
+        .number = PBUserLoginData_FieldNumber_UserId,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PBUserLoginData__storage_, userId),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
       {
-        .name = "countryId",
+        .name = "userName",
         .dataTypeSpecific.className = NULL,
-        .number = PBLocation_FieldNumber_CountryId,
+        .number = PBUserLoginData_FieldNumber_UserName,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(PBUserLoginData__storage_, userName),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "lastLoginDevice",
+        .dataTypeSpecific.className = GPBStringifySymbol(PBDevice),
+        .number = PBUserLoginData_FieldNumber_LastLoginDevice,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(PBUserLoginData__storage_, lastLoginDevice),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "lastLoginClientIp",
+        .dataTypeSpecific.className = NULL,
+        .number = PBUserLoginData_FieldNumber_LastLoginClientIp,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(PBUserLoginData__storage_, lastLoginClientIp),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "lastLoginLocation",
+        .dataTypeSpecific.className = NULL,
+        .number = PBUserLoginData_FieldNumber_LastLoginLocation,
         .hasIndex = 4,
-        .offset = (uint32_t)offsetof(PBLocation__storage_, countryId),
+        .offset = (uint32_t)offsetof(PBUserLoginData__storage_, lastLoginLocation),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
       {
-        .name = "provinceId",
+        .name = "lastLoginDate",
         .dataTypeSpecific.className = NULL,
-        .number = PBLocation_FieldNumber_ProvinceId,
+        .number = PBUserLoginData_FieldNumber_LastLoginDate,
         .hasIndex = 5,
-        .offset = (uint32_t)offsetof(PBLocation__storage_, provinceId),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "cityId",
-        .dataTypeSpecific.className = NULL,
-        .number = PBLocation_FieldNumber_CityId,
-        .hasIndex = 6,
-        .offset = (uint32_t)offsetof(PBLocation__storage_, cityId),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "districtId",
-        .dataTypeSpecific.className = NULL,
-        .number = PBLocation_FieldNumber_DistrictId,
-        .hasIndex = 7,
-        .offset = (uint32_t)offsetof(PBLocation__storage_, districtId),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "locationName",
-        .dataTypeSpecific.className = NULL,
-        .number = PBLocation_FieldNumber_LocationName,
-        .hasIndex = 8,
-        .offset = (uint32_t)offsetof(PBLocation__storage_, locationName),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "hot",
-        .dataTypeSpecific.className = NULL,
-        .number = PBLocation_FieldNumber_Hot,
-        .hasIndex = 9,
-        .offset = 10,  // Stored in _has_storage_ to save space.
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeBool,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PBLocation class]
-                                     rootClass:[CommonModelRoot class]
-                                          file:CommonModelRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PBLocation__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
-    static const char *extraTextFormatInfo =
-        "\007\001\n\000\003\013\000\004\t\000\005\n\000\006\006\000\007\n\000\010\014\000";
-    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
-#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PBUserFeedback
-
-@implementation PBUserFeedback
-
-@dynamic feedbackId;
-@dynamic content;
-@dynamic createDate;
-@dynamic deviceType;
-@dynamic appVersion;
-@dynamic user;
-@dynamic remark;
-@dynamic status;
-
-typedef struct PBUserFeedback__storage_ {
-  uint32_t _has_storage_[1];
-  uint32_t feedbackId;
-  PBDeviceType deviceType;
-  PBFeedbackStatus status;
-  NSString *content;
-  NSString *appVersion;
-  NSString *user;
-  NSString *remark;
-  uint64_t createDate;
-} PBUserFeedback__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "feedbackId",
-        .dataTypeSpecific.className = NULL,
-        .number = PBUserFeedback_FieldNumber_FeedbackId,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PBUserFeedback__storage_, feedbackId),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeUInt32,
-      },
-      {
-        .name = "content",
-        .dataTypeSpecific.className = NULL,
-        .number = PBUserFeedback_FieldNumber_Content,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PBUserFeedback__storage_, content),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "createDate",
-        .dataTypeSpecific.className = NULL,
-        .number = PBUserFeedback_FieldNumber_CreateDate,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PBUserFeedback__storage_, createDate),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeUInt64,
-      },
-      {
-        .name = "deviceType",
-        .dataTypeSpecific.enumDescFunc = PBDeviceType_EnumDescriptor,
-        .number = PBUserFeedback_FieldNumber_DeviceType,
-        .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PBUserFeedback__storage_, deviceType),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom | GPBFieldHasEnumDescriptor),
-        .dataType = GPBDataTypeEnum,
-      },
-      {
-        .name = "appVersion",
-        .dataTypeSpecific.className = NULL,
-        .number = PBUserFeedback_FieldNumber_AppVersion,
-        .hasIndex = 4,
-        .offset = (uint32_t)offsetof(PBUserFeedback__storage_, appVersion),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "user",
-        .dataTypeSpecific.className = NULL,
-        .number = PBUserFeedback_FieldNumber_User,
-        .hasIndex = 5,
-        .offset = (uint32_t)offsetof(PBUserFeedback__storage_, user),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "remark",
-        .dataTypeSpecific.className = NULL,
-        .number = PBUserFeedback_FieldNumber_Remark,
-        .hasIndex = 6,
-        .offset = (uint32_t)offsetof(PBUserFeedback__storage_, remark),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "status",
-        .dataTypeSpecific.enumDescFunc = PBFeedbackStatus_EnumDescriptor,
-        .number = PBUserFeedback_FieldNumber_Status,
-        .hasIndex = 7,
-        .offset = (uint32_t)offsetof(PBUserFeedback__storage_, status),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
-        .dataType = GPBDataTypeEnum,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PBUserFeedback class]
-                                     rootClass:[CommonModelRoot class]
-                                          file:CommonModelRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PBUserFeedback__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
-    static const char *extraTextFormatInfo =
-        "\004\001\n\000\003\n\000\004\n\000\005\n\000";
-    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
-#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-int32_t PBUserFeedback_DeviceType_RawValue(PBUserFeedback *message) {
-  GPBDescriptor *descriptor = [PBUserFeedback descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PBUserFeedback_FieldNumber_DeviceType];
-  return GPBGetMessageInt32Field(message, field);
-}
-
-void SetPBUserFeedback_DeviceType_RawValue(PBUserFeedback *message, int32_t value) {
-  GPBDescriptor *descriptor = [PBUserFeedback descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PBUserFeedback_FieldNumber_DeviceType];
-  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
-}
-
-int32_t PBUserFeedback_Status_RawValue(PBUserFeedback *message) {
-  GPBDescriptor *descriptor = [PBUserFeedback descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PBUserFeedback_FieldNumber_Status];
-  return GPBGetMessageInt32Field(message, field);
-}
-
-void SetPBUserFeedback_Status_RawValue(PBUserFeedback *message, int32_t value) {
-  GPBDescriptor *descriptor = [PBUserFeedback descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PBUserFeedback_FieldNumber_Status];
-  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
-}
-
-#pragma mark - PBUserFeedbackList
-
-@implementation PBUserFeedbackList
-
-@dynamic feedBacksArray, feedBacksArray_Count;
-@dynamic hasPageInfo, pageInfo;
-
-typedef struct PBUserFeedbackList__storage_ {
-  uint32_t _has_storage_[1];
-  NSMutableArray *feedBacksArray;
-  PBPageInfo *pageInfo;
-} PBUserFeedbackList__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "feedBacksArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(PBUserFeedback),
-        .number = PBUserFeedbackList_FieldNumber_FeedBacksArray,
-        .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(PBUserFeedbackList__storage_, feedBacksArray),
-        .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeMessage,
-      },
-      {
-        .name = "pageInfo",
-        .dataTypeSpecific.className = GPBStringifySymbol(PBPageInfo),
-        .number = PBUserFeedbackList_FieldNumber_PageInfo,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PBUserFeedbackList__storage_, pageInfo),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeMessage,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PBUserFeedbackList class]
-                                     rootClass:[CommonModelRoot class]
-                                          file:CommonModelRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PBUserFeedbackList__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
-    static const char *extraTextFormatInfo =
-        "\002\001\000feedBacks\000\002\010\000";
-    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
-#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PBGetUserFeedBackListReq
-
-@implementation PBGetUserFeedBackListReq
-
-@dynamic beginDate;
-@dynamic endDate;
-@dynamic keyword;
-@dynamic hasPage, page;
-
-typedef struct PBGetUserFeedBackListReq__storage_ {
-  uint32_t _has_storage_[1];
-  NSString *keyword;
-  PBPagePara *page;
-  uint64_t beginDate;
-  uint64_t endDate;
-} PBGetUserFeedBackListReq__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "beginDate",
-        .dataTypeSpecific.className = NULL,
-        .number = PBGetUserFeedBackListReq_FieldNumber_BeginDate,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PBGetUserFeedBackListReq__storage_, beginDate),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeUInt64,
-      },
-      {
-        .name = "endDate",
-        .dataTypeSpecific.className = NULL,
-        .number = PBGetUserFeedBackListReq_FieldNumber_EndDate,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PBGetUserFeedBackListReq__storage_, endDate),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeUInt64,
-      },
-      {
-        .name = "keyword",
-        .dataTypeSpecific.className = NULL,
-        .number = PBGetUserFeedBackListReq_FieldNumber_Keyword,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PBGetUserFeedBackListReq__storage_, keyword),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "page",
-        .dataTypeSpecific.className = GPBStringifySymbol(PBPagePara),
-        .number = PBGetUserFeedBackListReq_FieldNumber_Page,
-        .hasIndex = 3,
-        .offset = (uint32_t)offsetof(PBGetUserFeedBackListReq__storage_, page),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeMessage,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PBGetUserFeedBackListReq class]
-                                     rootClass:[CommonModelRoot class]
-                                          file:CommonModelRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PBGetUserFeedBackListReq__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
-    static const char *extraTextFormatInfo =
-        "\002\001\t\000\002\007\000";
-    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
-#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PBDevice
-
-@implementation PBDevice
-
-@dynamic deviceOs;
-@dynamic deviceModel;
-@dynamic deviceId;
-
-typedef struct PBDevice__storage_ {
-  uint32_t _has_storage_[1];
-  NSString *deviceOs;
-  NSString *deviceModel;
-  NSString *deviceId;
-} PBDevice__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "deviceOs",
-        .dataTypeSpecific.className = NULL,
-        .number = PBDevice_FieldNumber_DeviceOs,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PBDevice__storage_, deviceOs),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "deviceModel",
-        .dataTypeSpecific.className = NULL,
-        .number = PBDevice_FieldNumber_DeviceModel,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PBDevice__storage_, deviceModel),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "deviceId",
-        .dataTypeSpecific.className = NULL,
-        .number = PBDevice_FieldNumber_DeviceId,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(PBDevice__storage_, deviceId),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeString,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PBDevice class]
-                                     rootClass:[CommonModelRoot class]
-                                          file:CommonModelRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PBDevice__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
-    static const char *extraTextFormatInfo =
-        "\003\010\010\000\t\013\000\n\010\000";
-    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
-#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PBLocationQueryReq
-
-@implementation PBLocationQueryReq
-
-@dynamic higherId;
-@dynamic locationName;
-
-typedef struct PBLocationQueryReq__storage_ {
-  uint32_t _has_storage_[1];
-  NSString *higherId;
-  NSString *locationName;
-} PBLocationQueryReq__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "higherId",
-        .dataTypeSpecific.className = NULL,
-        .number = PBLocationQueryReq_FieldNumber_HigherId,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PBLocationQueryReq__storage_, higherId),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "locationName",
-        .dataTypeSpecific.className = NULL,
-        .number = PBLocationQueryReq_FieldNumber_LocationName,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PBLocationQueryReq__storage_, locationName),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeString,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PBLocationQueryReq class]
-                                     rootClass:[CommonModelRoot class]
-                                          file:CommonModelRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PBLocationQueryReq__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
-    static const char *extraTextFormatInfo =
-        "\002\001\010\000\002\014\000";
-    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
-#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PBLocationList
-
-@implementation PBLocationList
-
-@dynamic locationsArray, locationsArray_Count;
-@dynamic hasPageInfo, pageInfo;
-
-typedef struct PBLocationList__storage_ {
-  uint32_t _has_storage_[1];
-  NSMutableArray *locationsArray;
-  PBPageInfo *pageInfo;
-} PBLocationList__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "locationsArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(PBLocation),
-        .number = PBLocationList_FieldNumber_LocationsArray,
-        .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(PBLocationList__storage_, locationsArray),
-        .flags = GPBFieldRepeated,
-        .dataType = GPBDataTypeMessage,
-      },
-      {
-        .name = "pageInfo",
-        .dataTypeSpecific.className = GPBStringifySymbol(PBPageInfo),
-        .number = PBLocationList_FieldNumber_PageInfo,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PBLocationList__storage_, pageInfo),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeMessage,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PBLocationList class]
-                                     rootClass:[CommonModelRoot class]
-                                          file:CommonModelRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PBLocationList__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
-#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
-    static const char *extraTextFormatInfo =
-        "\001\002\010\000";
-    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
-#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PBLocationData
-
-@implementation PBLocationData
-
-@dynamic locationsArray, locationsArray_Count;
-@dynamic modifyTime;
-
-typedef struct PBLocationData__storage_ {
-  uint32_t _has_storage_[1];
-  NSMutableArray *locationsArray;
-  uint64_t modifyTime;
-} PBLocationData__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "locationsArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(PBLocation),
-        .number = PBLocationData_FieldNumber_LocationsArray,
-        .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(PBLocationData__storage_, locationsArray),
-        .flags = GPBFieldRepeated,
-        .dataType = GPBDataTypeMessage,
-      },
-      {
-        .name = "modifyTime",
-        .dataTypeSpecific.className = NULL,
-        .number = PBLocationData_FieldNumber_ModifyTime,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PBLocationData__storage_, modifyTime),
+        .offset = (uint32_t)offsetof(PBUserLoginData__storage_, lastLoginDate),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeUInt64,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PBLocationData class]
+        [GPBDescriptor allocDescriptorForClass:[PBUserLoginData class]
                                      rootClass:[CommonModelRoot class]
                                           file:CommonModelRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PBLocationData__storage_)
+                                   storageSize:sizeof(PBUserLoginData__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\001\002\n\000";
+        "\006\001\006\000\002\010\000\003\017\000\004\021\000\005\021\000\006\r\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
-    NSAssert(descriptor == nil, @"Startup recursed!");
-    descriptor = localDescriptor;
-  }
-  return descriptor;
-}
-
-@end
-
-#pragma mark - PBLocationDetectReq
-
-@implementation PBLocationDetectReq
-
-@dynamic longitude;
-@dynamic latitude;
-
-typedef struct PBLocationDetectReq__storage_ {
-  uint32_t _has_storage_[1];
-  float longitude;
-  float latitude;
-} PBLocationDetectReq__storage_;
-
-// This method is threadsafe because it is initially called
-// in +initialize for each subclass.
-+ (GPBDescriptor *)descriptor {
-  static GPBDescriptor *descriptor = nil;
-  if (!descriptor) {
-    static GPBMessageFieldDescription fields[] = {
-      {
-        .name = "longitude",
-        .dataTypeSpecific.className = NULL,
-        .number = PBLocationDetectReq_FieldNumber_Longitude,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PBLocationDetectReq__storage_, longitude),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeFloat,
-      },
-      {
-        .name = "latitude",
-        .dataTypeSpecific.className = NULL,
-        .number = PBLocationDetectReq_FieldNumber_Latitude,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PBLocationDetectReq__storage_, latitude),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeFloat,
-      },
-    };
-    GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PBLocationDetectReq class]
-                                     rootClass:[CommonModelRoot class]
-                                          file:CommonModelRoot_FileDescriptor()
-                                        fields:fields
-                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PBLocationDetectReq__storage_)
-                                         flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
   }

@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -15,7 +16,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        _ = UserManager.shared
+        let vc = CustomTabBarController.instantIntializeController(storyBoardName: "Main")!
+        self.window?.rootViewController = vc
+        self.window?.makeKeyAndVisible()
+        
+//        if UserManager.shared.isSignin {
+//            let vc = UnSigninController.instantIntializeController(storyBoardName: "SigninController")!
+//            let nav = CustomNavigatioController(rootViewController: vc)
+//            self.window?.rootViewController = nav
+//            self.window?.makeKeyAndVisible()
+//            
+//        } else {
+//            
+//        }
+        
         return true
     }
 

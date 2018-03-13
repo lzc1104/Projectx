@@ -1,5 +1,73 @@
 PODS:
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
+    - AFNetworking/NSURLSession
   - Alamofire (4.5.1)
+  - CommonLib (1.3.5):
+    - AFNetworking (~> 3.0)
+    - CommonLib/BasicUtils (= 1.3.5)
+    - CommonLib/DateUtils (= 1.3.5)
+    - CommonLib/Device (= 1.3.5)
+    - CommonLib/FileUtils (= 1.3.5)
+    - CommonLib/MessageCenter (= 1.3.5)
+    - CommonLib/UIKit+Utils (= 1.3.5)
+    - leveldb
+    - MBProgressHUD
+    - Protobuf
+    - UICKeyChainStore
+  - CommonLib/BasicUtils (1.3.5):
+    - AFNetworking (~> 3.0)
+    - leveldb
+    - MBProgressHUD
+    - Protobuf
+    - UICKeyChainStore
+  - CommonLib/DateUtils (1.3.5):
+    - AFNetworking (~> 3.0)
+    - leveldb
+    - MBProgressHUD
+    - Protobuf
+    - UICKeyChainStore
+  - CommonLib/Device (1.3.5):
+    - AFNetworking (~> 3.0)
+    - CommonLib/BasicUtils
+    - leveldb
+    - MBProgressHUD
+    - Protobuf
+    - UICKeyChainStore
+  - CommonLib/FileUtils (1.3.5):
+    - AFNetworking (~> 3.0)
+    - CommonLib/BasicUtils
+    - CommonLib/UIKit+Utils
+    - leveldb
+    - MBProgressHUD
+    - Protobuf
+    - UICKeyChainStore
+  - CommonLib/MessageCenter (1.3.5):
+    - AFNetworking (~> 3.0)
+    - CommonLib/BasicUtils
+    - CommonLib/UIKit+Utils
+    - leveldb
+    - MBProgressHUD
+    - Protobuf
+    - UICKeyChainStore
+  - CommonLib/UIKit+Utils (1.3.5):
+    - AFNetworking (~> 3.0)
+    - leveldb
+    - MBProgressHUD
+    - Protobuf
+    - UICKeyChainStore
   - Device (3.0.2)
   - HuayingRequest (0.11.21):
     - Alamofire (~> 4.5.0)
@@ -11,9 +79,11 @@ PODS:
     - PromiseKit (~> 4.4)
     - Protobuf
     - SwiftWebSocket
-  - Model (0.0.58):
-    - Model/Message (= 0.0.58)
-  - Model/Message (0.0.58):
+  - leveldb (1.18)
+  - MBProgressHUD (1.0.0)
+  - Model (0.0.60):
+    - Model/Message (= 0.0.60)
+  - Model/Message (0.0.60):
     - Protobuf
   - PromiseKit (4.4.0):
     - PromiseKit/Foundation (= 4.4.0)
@@ -27,6 +97,8 @@ PODS:
   - PromiseKit/UIKit (4.4.0):
     - PromiseKit/CorePromise
   - Protobuf (3.4.0)
+  - RxCocoa (3.6.1):
+    - RxSwift (~> 3.6)
   - RxSwift (3.6.1)
   - SwiftWebSocket (2.6.5)
   - SwipeBack (1.1.1)
@@ -36,15 +108,20 @@ PODS:
   - YYCategories/no-arc (1.0.4)
 
 DEPENDENCIES:
+  - CommonLib (from `git@github.com:gckjdev/Huaying_iOS_Common.git`, tag `1.3.5`)
   - Device
   - HuayingRequest (from `git@github.com:gckjdev/Huaying_iOS_Network.git`, tag `0.11.21`)
   - Model (from `.`)
+  - RxCocoa
   - RxSwift
   - SwipeBack (~> 1.1)
   - UICKeyChainStore
   - YYCategories
 
 EXTERNAL SOURCES:
+  CommonLib:
+    :git: git@github.com:gckjdev/Huaying_iOS_Common.git
+    :tag: 1.3.5
   HuayingRequest:
     :git: git@github.com:gckjdev/Huaying_iOS_Network.git
     :tag: 0.11.21
@@ -52,23 +129,31 @@ EXTERNAL SOURCES:
     :path: "."
 
 CHECKOUT OPTIONS:
+  CommonLib:
+    :git: git@github.com:gckjdev/Huaying_iOS_Common.git
+    :tag: 1.3.5
   HuayingRequest:
     :git: git@github.com:gckjdev/Huaying_iOS_Network.git
     :tag: 0.11.21
 
 SPEC CHECKSUMS:
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
+  CommonLib: dae1e16607f8e64627d582bccd5c201c560799f1
   Device: 746d3457c67e6d7227c8c7945978314d06900437
   HuayingRequest: a3fb5a6967eac4683c8fc24710a194dd18163a01
-  Model: 12586c5424f8dd5d48056c81fb181d46f9009df4
+  leveldb: '06059c65d8480c7775ebca4fd556f49f1a655ce2'
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  Model: d4c6a948e308cc17aeb38e3c768843e19a9ccfb1
   PromiseKit: ecf5fe92275d57ee77c9ede858af47a162e9b97e
   Protobuf: 03eef2ee0b674770735cf79d9c4d3659cf6908e8
+  RxCocoa: 84a08739ab186248c7f31ce4ee92d6f8a947d690
   RxSwift: f9de85ea20cd2f7716ee5409fc13523dc638e4e4
   SwiftWebSocket: 1ef8a0efb023544643bdf480c1ec4a62b204f293
   SwipeBack: d6759601b40da1f4161033feb30ab475d7d04322
   UICKeyChainStore: 239558492fa260531a0774cfc611ea83a6eaff3a
   YYCategories: 6bcd4314c6661a561410dce4a793379ebd306abd
 
-PODFILE CHECKSUM: e16dcd22a6a8e325b2348289590de3b11b235db5
+PODFILE CHECKSUM: 1213ad4950494a4ba363865ce6419460e42f803b
 
 COCOAPODS: 1.2.1

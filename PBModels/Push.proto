@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.huaying.framework.protos";
+option java_outer_classname = "PushProtos";
+option objc_class_prefix = "";
+
+package framework;
+import "CommonModel.proto";
+
+message PBPushMessage {
+
+    uint32 messageId = 1;
+    uint32 type = 2;
+    uint32 deviceType = 3;
+    string title = 4;
+    string description = 5;
+    string webUrl = 6;
+    bool isOrderTime = 7;
+    uint64 timeToSend = 8;
+    repeated PBExtraInfo externalMsgInfo = 9;
+    uint64 createDate = 10;
+    uint64 updateDate = 11;
+    uint32 result = 12;
+    string coverImageUrl = 14;
+    uint32 messageAction = 15;
+    string groupId = 16;
+    repeated string alias = 17;
+    string userAccount = 18;
+    uint32 timeToLive = 19;
+}
+
+message PBExtraInfo {
+    string key = 1;
+    string value = 2;
+}
+
+message PBPushMessageList {
+    repeated PBPushMessage mes = 1;
+    PBPageInfo pageInfo = 4;                    // 分页参数
+}
+
+message PBPushMessageSearchListReq {
+    uint64 startDate = 1;
+    uint64 endDate = 2;
+    uint32 diviceType = 3;                      //设备类型
+    PBPagePara page = 4;
+}

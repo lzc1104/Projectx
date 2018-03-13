@@ -12,8 +12,9 @@ class AboutUsController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        self.navigationItem.title = "关于我们"
+        self.view.backgroundColor = Color.White.bg
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -22,14 +23,5 @@ class AboutUsController: UIViewController {
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

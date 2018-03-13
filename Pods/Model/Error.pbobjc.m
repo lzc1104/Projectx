@@ -42,12 +42,19 @@ GPBEnumDescriptor *PBError_EnumDescriptor(void) {
         "on\000AppNetworkError\000ValidateParameterErro"
         "r\000ValidateParameterException\000LimitTooBig"
         "\000ErrorInvalidSecurity\000OperationNotSuppor"
-        "t\000DataEmptyException\000UserMobileExists\000In"
-        "correctPassword\000KeyExists\000KeyNotExists\000V"
-        "alueCanNotBeModified\000AdminNotFound\000Admin"
-        "Exist\000FeedbackNotExists\000SendValidCodeErr"
-        "or\000SendValidCodeTypeIncorrect\000LocationNo"
-        "tFound\000";
+        "t\000DataEmptyException\000UserMobileExists\000Us"
+        "erIncorrectPassword\000UserNotLoginYet\000User"
+        "AccessTokenExpired\000UserAccessTokenInvali"
+        "d\000KeyExists\000KeyNotExists\000ValueCanNotBeMo"
+        "dified\000AdminNotFound\000AdminExist\000Feedback"
+        "NotExists\000SendValidCodeError\000SendValidCo"
+        "deTypeIncorrect\000LocationNotFound\000Locatio"
+        "nGetRemoteAdcodeFailure\000LocationGetServe"
+        "rVersionFailure\000LocationGetAllFailure\000Lo"
+        "cationAdcodeNotDigits\000LocationCityNameNo"
+        "tFound\000LocationCityIsHot\000LocationCityIsN"
+        "otHot\000LocationCityIsOverLimit\000LocationDe"
+        "tectNotFound\000LocationGetLngLatFailure\000";
     static const int32_t values[] = {
         PBError_Success,
         PBError_ReadPostData,
@@ -68,7 +75,10 @@ GPBEnumDescriptor *PBError_EnumDescriptor(void) {
         PBError_OperationNotSupport,
         PBError_DataEmptyException,
         PBError_UserMobileExists,
-        PBError_IncorrectPassword,
+        PBError_UserIncorrectPassword,
+        PBError_UserNotLoginYet,
+        PBError_UserAccessTokenExpired,
+        PBError_UserAccessTokenInvalid,
         PBError_KeyExists,
         PBError_KeyNotExists,
         PBError_ValueCanNotBeModified,
@@ -78,6 +88,16 @@ GPBEnumDescriptor *PBError_EnumDescriptor(void) {
         PBError_SendValidCodeError,
         PBError_SendValidCodeTypeIncorrect,
         PBError_LocationNotFound,
+        PBError_LocationGetRemoteAdcodeFailure,
+        PBError_LocationGetServerVersionFailure,
+        PBError_LocationGetAllFailure,
+        PBError_LocationAdcodeNotDigits,
+        PBError_LocationCityNameNotFound,
+        PBError_LocationCityIsHot,
+        PBError_LocationCityIsNotHot,
+        PBError_LocationCityIsOverLimit,
+        PBError_LocationDetectNotFound,
+        PBError_LocationGetLngLatFailure,
     };
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(PBError)
@@ -113,7 +133,10 @@ BOOL PBError_IsValidValue(int32_t value__) {
     case PBError_OperationNotSupport:
     case PBError_DataEmptyException:
     case PBError_UserMobileExists:
-    case PBError_IncorrectPassword:
+    case PBError_UserIncorrectPassword:
+    case PBError_UserNotLoginYet:
+    case PBError_UserAccessTokenExpired:
+    case PBError_UserAccessTokenInvalid:
     case PBError_KeyExists:
     case PBError_KeyNotExists:
     case PBError_ValueCanNotBeModified:
@@ -123,6 +146,16 @@ BOOL PBError_IsValidValue(int32_t value__) {
     case PBError_SendValidCodeError:
     case PBError_SendValidCodeTypeIncorrect:
     case PBError_LocationNotFound:
+    case PBError_LocationGetRemoteAdcodeFailure:
+    case PBError_LocationGetServerVersionFailure:
+    case PBError_LocationGetAllFailure:
+    case PBError_LocationAdcodeNotDigits:
+    case PBError_LocationCityNameNotFound:
+    case PBError_LocationCityIsHot:
+    case PBError_LocationCityIsNotHot:
+    case PBError_LocationCityIsOverLimit:
+    case PBError_LocationDetectNotFound:
+    case PBError_LocationGetLngLatFailure:
       return YES;
     default:
       return NO;
